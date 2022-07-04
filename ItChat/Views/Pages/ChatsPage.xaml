@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ItChat.Views.Pages.ChatsPage"
+             x:Name="body"
+             Title="Chats">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="Icons/message" />
+        <ToolbarItem IconImageSource="Icons/big_check_list" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <Grid RowDefinitions="Auto, Auto, *">
+                <CollectionView Grid.Row="0"
+                                ItemsSource="{ Binding Path=Stories }"
+                                ItemsLayout="HorizontalList"
+                                SelectionMode="None">
+                    <CollectionView.Header>
+
+                        <StackLayout Margin="12, 8, 5, 12">                            
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.AddStoryCommand }" />
+                            </StackLayout.GestureRecognizers>
+
+                            <Frame Padding="2"
+                                       HasShadow="False"
+                                       CornerRadius="18"
+                                       BackgroundColor="#ADB5BD"
+                                       BorderColor="#ADB5BD">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.AddStoryCommand }" />
+                                </Frame.GestureRecognizers>
+                                    
+                                <Frame Padding="2"
+                                       HasShadow="False"
+                                       CornerRadius="18"
+                                       BorderColor="#ADB5BD"
+                                       Style="{ StaticResource Key=EntryBg }">
+                                    <Frame Padding="25"
+                                           HasShadow="False"
+                                           CornerRadius="14"
+                                           Margin="0"
+                                           BorderColor="Transparent"
+                                           Style="{ StaticResource Key=EntryBg }">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.AddStoryCommand }" />
+                                            </Frame.GestureRecognizers>
+
+                                        <Image Source="Icons/pluse"
+                                               WidthRequest="16"
+                                               HeightRequest="16"
+                                               Aspect="AspectFill">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.AddStoryCommand }" />
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </Frame>
+                                </Frame>
+                            </Frame>
+
+                            <Label Text="Your Story"
+                                       LineBreakMode="TailTruncation"
+                                       VerticalTextAlignment="Center"
+                                       WidthRequest="60"
+                                       FontSize="12"
+                                       Margin="0, 3, 0, 0"
+                                       MaxLines="1"
+                                       HorizontalOptions="CenterAndExpand"/>
+                        </StackLayout>
+
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            
+                            <StackLayout Margin="12, 8, 5, 12">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.SellectedStoryCommand }" CommandParameter="{ Binding Path=. }" />
+                                </StackLayout.GestureRecognizers>
+
+                                <Frame Padding="2"
+                                       HasShadow="False"
+                                       CornerRadius="18"
+                                       BackgroundColor="Blue"
+                                       BorderColor="Blue">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.SellectedStoryCommand }" CommandParameter="{ Binding Path=. }" />
+                                    </Frame.GestureRecognizers>
+                                    <Frame Padding="2"
+                                       HasShadow="False"
+                                       CornerRadius="18"
+                                       BorderColor="White"
+                                       BackgroundColor="White">
+                                        <Frame Padding="0"
+                                            HasShadow="False"
+                                            CornerRadius="16"
+                                            Margin="1">
+
+                                            <Image Source="{ Binding Path=Media }"
+                                               WidthRequest="65"
+                                               HeightRequest="65"
+                                               Aspect="AspectFill" >
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.SellectedStoryCommand }" CommandParameter="{ Binding Path=. }" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                            
+                                        </Frame>
+                                    </Frame>
+                                </Frame>
+                                   
+                                <Label Text="{ Binding Path=FullName }"
+                                       LineBreakMode="TailTruncation"
+                                       WidthRequest="74"
+                                       FontSize="12"
+                                       Margin="0, 3, 0, 0"
+                                       MaxLines="1"
+                                       HorizontalOptions="Center" />
+                            </StackLayout>
+                            
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                
+                <Line Grid.Row="1"
+                      Y1="0" Y2="0"
+                      X1="10" X2="404"
+                      Stroke="#bebebe" />
+
+                <Grid Grid.Row="2"
+                      RowDefinitions="Auto, *"
+                      Padding="18, 12">
+                    
+                    <Frame Grid.Row="0"
+                           Padding="12, 0"
+                           BorderColor="Transparent"
+                           Style="{ StaticResource Key=EntryBg }">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Image Grid.Column="0"
+                                   Source="Icons/search"
+                                   Aspect="AspectFill"
+                                   WidthRequest="20"
+                                   HeightRequest="20"
+                                   />
+                            <Entry Grid.Column="1" Placeholder="Search" Margin="8, 0, 0, 0" />
+                        </Grid>
+                    </Frame>
+
+                    <CollectionView Grid.Row="1"
+                                    ItemsSource="{ Binding Path=Chats }"
+                                    VerticalScrollBarVisibility="Never"
+                                    SelectionMode="Single">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Horizontal"
+                                             Spacing="16"
+                                             Margin="0, 10">
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{ Binding  Source={ x:Reference Name=body }, Path=BindingContext.SellectedChatCommand }" CommandParameter="{ Binding Path=. }" />
+                                    </StackLayout.GestureRecognizers>
+
+                                    <Grid Margin="0, 0, 0, 4">
+                                        <Frame Padding="0"
+                                           CornerRadius="15">
+                                            <Image Source="{ Binding Path=Avatar }"
+                                                WidthRequest="55"
+                                                HeightRequest="55"
+                                                Aspect="AspectFill" >
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.SellectedChatCommand }" CommandParameter="{ Binding Path=. }" />
+                                                </Image.GestureRecognizers>
+                                            </Image>
+                                        </Frame>
+                                        <Image Source="Icons/online_status"
+                                               WidthRequest="15"
+                                               HeightRequest="15"
+                                               TranslationX="6"
+                                               TranslationY="2"
+                                               VerticalOptions="End"
+                                               HorizontalOptions="End" />
+                                    </Grid>
+
+                                    <StackLayout Spacing="6" VerticalOptions="Start">
+                                        <Grid ColumnDefinitions="Auto, *, Auto">
+                                            <Label Grid.Column="0"
+                                                   Text="{ Binding Path=FullName }"
+                                                   HorizontalOptions="Start"
+                                                   FontAttributes="Bold" />
+                                            <Label Grid.Column="2"
+                                                   Margin="92, 0, 0, 0"
+                                                   Text="{ Binding Path=CreatedAt }"
+                                                   TextColor="#A4A4A4"
+                                                   HorizontalOptions="End" />
+                                        </Grid>
+                                        <Grid ColumnDefinitions="265, Auto">
+                                            <Label Grid.Column="0"
+                                                   Text="{ Binding Path=LastMessage }"
+                                                   MaxLines="1"
+                                                   LineBreakMode="TailTruncation"
+                                                   WidthRequest="200"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   TextColor="#ADB5BD" />
+                                            
+                                            <!--
+                                            <Frame Grid.Column="1"
+                                                   Padding="1"
+                                                   CornerRadius="20"
+                                                   BackgroundColor="#D2D5F9"
+                                                   BorderColor="White"
+                                                   VerticalOptions="End">
+                                                <Label Text="{ Binding Path=CountDontViewed }"
+                                                       FontSize="12"
+                                                       VerticalOptions="Center"
+                                                       HorizontalOptions="Center" />
+                                            </Frame>
+                                            -->
+
+                                            <BoxView Grid.Column="1"
+                                                     WidthRequest="18"
+                                                     Color="#D2D5F9"
+                                                     CornerRadius="20">
+                                            </BoxView>
+                                            
+                                                
+                                            <Label Grid.Column="1"
+                                                   Text="2"
+                                                    FontSize="12"
+                                                    VerticalOptions="Center"
+                                                    HorizontalOptions="Center"
+                                                    FontAttributes="Bold"
+                                                   TextColor="{ StaticResource Key=TextColorLight }"/>
+                                        </Grid>
+                                    </StackLayout>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Grid>
+        </ScrollView>
+    </ContentPage.Content>
+    
+</ContentPage>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ItChat.Views.Auth.CodePage"
+             Shell.NavBarIsVisible="False"
+             Title="CodePage">
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="100, Auto, Auto"
+              Padding="30, 210">
+
+            <StackLayout Grid.Row="0"
+                Spacing="6"
+                Orientation="Vertical">
+                <Label Text="Enter Code"
+                    FontSize="22"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="Center" />
+                <Label WidthRequest="270"
+                       HorizontalTextAlignment="Center"
+                       FontSize="Caption"
+                       Text="We have sent you an SMS with the code to +62 1309 - 1710 - 1920" />
+            </StackLayout>
+
+            <StackLayout Grid.Row="1"
+                         Orientation="Vertical">
+                <Frame Grid.Column="0"
+                       WidthRequest="320"
+                       BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }"
+                       Padding="10, 2">
+                    <Entry Text="{ Binding Path=Code }"
+                           Placeholder="____"
+                           FontSize="40"
+                           CharacterSpacing="20"
+                           MaxLength="4"
+                           HorizontalOptions="Center"
+                           Keyboard="Numeric" />
+                </Frame>
+            </StackLayout>
+
+            <StackLayout Grid.Row="2"
+                         Spacing="40"
+                         Orientation="Vertical"
+                         Margin="0, 40, 0, 0">
+
+                <Label HorizontalOptions="CenterAndExpand"
+                       FontSize="Subtitle"
+                       TextColor="#002DE3"
+                       Text="Resend Code" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{ Binding Path=ResendCodeCommand  }" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <Button
+                    Text="Continue"
+                    Style="{ StaticResource Key=LongBtnDark }"
+                    Command="{ Binding Path=ContinueCommand }" />
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>

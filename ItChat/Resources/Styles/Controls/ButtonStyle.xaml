@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="ButtonBgColorLigth">#002DE3</Color>
+    <Color x:Key="ButtonBgColorDark">#375FFF</Color>
+
+    <Style x:Key="LongBtnDark" TargetType="Button">
+        <Setter Property="HeightRequest" Value="45" />
+        <Setter Property="CornerRadius" Value="50" />
+        <Setter Property="TextColor" Value="{ StaticResource Key=TextColorDark }" />
+        <Setter Property="BackgroundColor" Value="{
+            AppThemeBinding
+            Light={StaticResource Key=ButtonBgColorLigth},
+            Dark={StaticResource Key=ButtonBgColorDark}
+        }" />
+    </Style>
+
+</ResourceDictionary>

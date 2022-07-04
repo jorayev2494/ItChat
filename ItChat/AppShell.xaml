@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="ItChat.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:authLocal="clr-namespace:ItChat.Views.Auth"
+    xmlns:pagesLocal="clr-namespace:ItChat.Views.Pages"
+    xmlns:pagesChat="clr-namespace:ItChat.Views.Chat"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.PresentationMode="Animated">
+
+    <!--
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{ DataTemplate authLocal:CodePage }"
+        Route="CodePage" />
+    -->
+
+    <!--
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{ DataTemplate authLocal:LoginPage }"
+        Route="LoginPage" />
+    -->
+
+    <TabBar>
+        <Tab Title="Login">
+            <ShellContent ContentTemplate="{ DataTemplate authLocal:LoginPage }" Route="LoginPage" />
+        </Tab>
+        
+        <Tab Title="Code">
+            <ShellContent ContentTemplate="{ DataTemplate authLocal:CodePage }" Route="CodePage" />
+        </Tab>
+
+        <Tab Title="Chats" Icon="Icons/chat.svg">
+            <ShellContent Title="Chats" ContentTemplate="{ DataTemplate pagesLocal:ChatsPage }" />
+        </Tab>
+
+        <Tab Title="Contacts" Icon="Icons/contacts.svg">
+            <ShellContent Title="Contacts" ContentTemplate="{ DataTemplate pagesLocal:ContactsPage }" />
+        </Tab>
+
+        <Tab Title="More">
+            <ShellContent Title="More" ContentTemplate="{ DataTemplate pagesLocal:MorePage }" />
+        </Tab>
+    </TabBar>
+</Shell>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ItChat.Views.Chat.ChatPage"
+             xmlns:converters="clr-namespace:ItChat.Converters"
+             Shell.TabBarIsVisible="False">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="Icons/search" />
+        <ToolbarItem IconImageSource="Icons/hamburger" />
+    </ContentPage.ToolbarItems>
+    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringToBoolConverter x:Key="strToBool" />
+            <converters:MessageColorConverter x:Key="mcc" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Shell.TitleView>
+        <StackLayout Orientation="Horizontal" Margin="0, 4" Spacing="8">
+            <Frame Padding="0"
+                   CornerRadius="15"
+                   WidthRequest="40"
+                   HeightRequest="40"
+                   >
+                <Image Source="{ Binding Path=Chat.Avatar }"
+                                                WidthRequest="45"
+                                                HeightRequest="45"
+                                                Aspect="AspectFill" >
+                </Image>
+            </Frame>
+            <StackLayout VerticalOptions="Center">
+                <Label Text="{ Binding Path=Chat.FullName }" />
+                <Label Text="last seen at 18:45"
+                       FontSize="Micro"
+                       TextColor="{ StaticResource Key=PlaceholderColor }"/>
+            </StackLayout>
+        </StackLayout>
+    </Shell.TitleView>
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="*, Auto">
+            <CollectionView ItemsSource="{ Binding Path=Messages }"
+                            ItemsUpdatingScrollMode="KeepLastItemInView"
+                            BackgroundColor="{ AppThemeBinding Light={StaticResource Key=EntryBgColorLight}, Dark={StaticResource Key=EntryBgColorDark} }">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout HorizontalOptions="{ Binding Path=Position }"
+                                     Margin="16, 8">
+                            <Frame Padding="14, 10"
+                                   MaximumWidthRequest="240"
+                                   HorizontalOptions="{ Binding Path=Position }"
+                                   CornerRadius="22"
+                                   HasShadow="False"
+                                   BorderColor="Transparent"
+                                   Style="{ StaticResource Key=MessageBg }">
+                                <StackLayout Spacing="8">
+                                    <Frame Padding="0" IsVisible="{ Binding Path=Media, Converter={StaticResource Key=strToBool} }">
+                                        <Image Source="{ Binding Path=Media }" Aspect="AspectFill" />
+                                    </Frame>
+                                    <Label Text="{ Binding Path=Text }"
+                                           FontSize="Caption" />
+                                    <Label HorizontalOptions="{ Binding Path=Position }"
+                                           TextColor="White">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{ Binding Path=CreatedAt }" FontSize="Micro" CharacterSpacing="1" />
+                                                <Span Text="•" CharacterSpacing="8" FontSize="Micro" />
+                                                <Span Text="Read" CharacterSpacing="1" FontSize="Micro" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Grid Grid.Row="1"
+                  ColumnDefinitions="Auto, *, Auto"
+                  Padding="16, 10">
+
+                <ImageButton Grid.Column="0"
+                             Source="Icons/pluse.svg"
+                             WidthRequest="20" />
+
+                <Frame Grid.Column="1"
+                       Padding="8, 0"
+                       Margin="14, 0"
+                       BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+                    <Entry Text="{ Binding Path=Text }"
+                           Placeholder="Message"
+                           VerticalOptions="Center"
+                           Keyboard="Chat" />
+                </Frame>
+
+                <ImageButton Grid.Column="2"
+                             Source="Icons/send_m.svg"
+                             WidthRequest="24"
+                             Command="{ Binding Path=SendMessageCommand }"
+                             />
+            </Grid>
+            
+            <!--
+            <Line Grid.Row="1"
+                    Y1="0" Y2="0"
+                    X1="10" X2="420"
+                    Stroke="#bebebe" />
+            -->
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>
