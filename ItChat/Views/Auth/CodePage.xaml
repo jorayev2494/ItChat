@@ -28,13 +28,13 @@
                        WidthRequest="320"
                        BorderColor="Transparent"
                        Style="{ StaticResource Key=EntryBg }"
-                       Padding="10, 2">
-                    <Entry Text="{ Binding Path=Code }"
-                           Placeholder="____"
+                       Padding="0, 2">
+                    <Entry Text="{ Binding Path=PhoneCode }"
+                           Placeholder="______"
                            FontSize="40"
-                           CharacterSpacing="20"
-                           MaxLength="4"
-                           HorizontalOptions="Center"
+                           CharacterSpacing="2"
+                           MaxLength="6"
+                           HorizontalOptions="CenterAndExpand"
                            Keyboard="Numeric" />
                 </Frame>
             </StackLayout>

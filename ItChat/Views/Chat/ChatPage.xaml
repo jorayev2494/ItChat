@@ -19,22 +19,33 @@
     </ContentPage.Resources>
 
     <Shell.TitleView>
-        <StackLayout Orientation="Horizontal" Margin="0, 4" Spacing="8">
-            <Frame Padding="0"
-                   CornerRadius="15"
-                   WidthRequest="40"
-                   HeightRequest="40"
-                   >
-                <Image Source="{ Binding Path=Chat.Avatar }"
-                                                WidthRequest="45"
-                                                HeightRequest="45"
-                                                Aspect="AspectFill" >
-                </Image>
-            </Frame>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Spacing="8" Margin="0, 0, 0, 2">
+            <Grid RowDefinitions="Auto">
+                <Frame Grid.Row="0"
+                       Padding="0"
+                       CornerRadius="15"
+                       WidthRequest="40"
+                       HeightRequest="40">
+                    <Image Grid.Row="0"
+                            Source="{ Binding Path=Chat.Avatar }"
+                            WidthRequest="40"
+                            HeightRequest="40"
+                            Aspect="AspectFill" >
+                    </Image>
+                </Frame>
+                <Image Source="Icons/online_status"
+                        WidthRequest="12"
+                        HeightRequest="12"
+                        TranslationX="3"
+                        TranslationY="1"
+                        VerticalOptions="End"
+                        HorizontalOptions="End"
+                        IsVisible="{ Binding Path=Chat.IsActive }" />
+            </Grid>
             <StackLayout VerticalOptions="Center">
-                <Label Text="{ Binding Path=Chat.FullName }" />
+                <Label Text="{ Binding Path=Chat.FullName }" FontSize="Subtitle" />
                 <Label Text="last seen at 18:45"
-                       FontSize="Micro"
+                       FontSize="Small"
                        TextColor="{ StaticResource Key=PlaceholderColor }"/>
             </StackLayout>
         </StackLayout>
@@ -57,9 +68,21 @@
                                    BorderColor="Transparent"
                                    Style="{ StaticResource Key=MessageBg }">
                                 <StackLayout Spacing="8">
-                                    <Frame Padding="0" IsVisible="{ Binding Path=Media, Converter={StaticResource Key=strToBool} }">
-                                        <Image Source="{ Binding Path=Media }" Aspect="AspectFill" />
+                                
+                                    <Frame Padding="0" BackgroundColor="Aqua" IsVisible="{ Binding Path=Media, Converter={StaticResource Key=strToBool} }">
+                                        <CollectionView ItemsSource="{ Binding Path=Medias }">
+                                            <CollectionView.ItemsLayout>
+                                                <GridItemsLayout Orientation="Vertical"
+                                                                 Span="2" />
+                                            </CollectionView.ItemsLayout>
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Image Source="{ Binding Path=Url }" Aspect="AspectFit" />
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
                                     </Frame>
+                                    
                                     <Label Text="{ Binding Path=Text }"
                                            FontSize="Caption" />
                                     <Label HorizontalOptions="{ Binding Path=Position }"
@@ -85,7 +108,8 @@
 
                 <ImageButton Grid.Column="0"
                              Source="Icons/pluse.svg"
-                             WidthRequest="20" />
+                             WidthRequest="20"
+                             Command="{ Binding Path=PickMediaCommand }" />
 
                 <Frame Grid.Column="1"
                        Padding="8, 0"

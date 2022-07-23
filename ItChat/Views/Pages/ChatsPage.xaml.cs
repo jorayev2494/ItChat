@@ -18,4 +18,11 @@ public partial class ChatsPage : ContentPage
 
         InitializeComponent();
 	}
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await viewModel.LoadChataAsync();
+    }
 }

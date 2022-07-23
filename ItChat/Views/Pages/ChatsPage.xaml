@@ -8,6 +8,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="Icons/message" />
         <ToolbarItem IconImageSource="Icons/big_check_list" />
+        <ToolbarItem Text="Logout" Command="{ Binding Path=LogoutCommand }" />
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
@@ -19,7 +20,7 @@
                                 SelectionMode="None">
                     <CollectionView.Header>
 
-                        <StackLayout Margin="12, 8, 5, 12">                            
+                        <StackLayout Margin="12, 9, 5, 12">                            
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.AddStoryCommand }" />
                             </StackLayout.GestureRecognizers>
@@ -38,7 +39,7 @@
                                        CornerRadius="18"
                                        BorderColor="#ADB5BD"
                                        Style="{ StaticResource Key=EntryBg }">
-                                    <Frame Padding="25"
+                                    <Frame Padding="19"
                                            HasShadow="False"
                                            CornerRadius="14"
                                            Margin="0"
@@ -74,7 +75,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             
-                            <StackLayout Margin="12, 8, 5, 12">
+                            <StackLayout Margin="4, 8, 5, 12">
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.SellectedStoryCommand }" CommandParameter="{ Binding Path=. }" />
                                 </StackLayout.GestureRecognizers>
@@ -82,25 +83,35 @@
                                 <Frame Padding="2"
                                        HasShadow="False"
                                        CornerRadius="18"
-                                       BackgroundColor="Blue"
-                                       BorderColor="Blue">
+                                       BorderColor="Transparent">
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.SellectedStoryCommand }" CommandParameter="{ Binding Path=. }" />
                                     </Frame.GestureRecognizers>
-                                    <Frame Padding="2"
+                                    <!-- 
+                                    <Frame.Background>
+                                        <LinearGradientBrush StartPoint="0.0" EndPoint="2.2">
+                                            <GradientStop Color="Red" Offset="0.0" />
+                                            <GradientStop Color="Green" Offset="1.1" />
+                                            <GradientStop Color="Blue" Offset="2.2" />
+                                        </LinearGradientBrush>
+                                    </Frame.Background>
+                                    -->
+                                    <Frame Padding="1"
                                        HasShadow="False"
                                        CornerRadius="18"
                                        BorderColor="White"
                                        BackgroundColor="White">
                                         <Frame Padding="0"
+                                               WidthRequest="56"
+                                               HeightRequest="56"
                                             HasShadow="False"
                                             CornerRadius="16"
                                             Margin="1">
 
                                             <Image Source="{ Binding Path=Media }"
-                                               WidthRequest="65"
-                                               HeightRequest="65"
-                                               Aspect="AspectFill" >
+                                                   WidthRequest="56"
+                                                   HeightRequest="56"
+                                                   Aspect="AspectFill">
                                                 <Image.GestureRecognizers>
                                                     <TapGestureRecognizer Command="{ Binding Source={ x:Reference Name=body }, Path=BindingContext.SellectedStoryCommand }" CommandParameter="{ Binding Path=. }" />
                                                 </Image.GestureRecognizers>
@@ -112,7 +123,7 @@
                                    
                                 <Label Text="{ Binding Path=FullName }"
                                        LineBreakMode="TailTruncation"
-                                       WidthRequest="74"
+                                       WidthRequest="65"
                                        FontSize="12"
                                        Margin="0, 3, 0, 0"
                                        MaxLines="1"
@@ -178,10 +189,12 @@
                                                TranslationX="6"
                                                TranslationY="2"
                                                VerticalOptions="End"
-                                               HorizontalOptions="End" />
+                                               HorizontalOptions="End"
+                                               IsVisible="true" />
+                                        <!-- IsVisible="{ Binding Path=IsActive }" -->
                                     </Grid>
 
-                                    <StackLayout Spacing="6" VerticalOptions="Start">
+                                    <StackLayout Spacing="6" VerticalOptions="Start" Margin="0, 3, 0, 0">
                                         <Grid ColumnDefinitions="Auto, *, Auto">
                                             <Label Grid.Column="0"
                                                    Text="{ Binding Path=FullName }"
@@ -195,30 +208,16 @@
                                         </Grid>
                                         <Grid ColumnDefinitions="265, Auto">
                                             <Label Grid.Column="0"
-                                                   Text="{ Binding Path=LastMessage }"
+                                                   Text="{ Binding Path=Messages }"
                                                    MaxLines="1"
                                                    LineBreakMode="TailTruncation"
                                                    WidthRequest="200"
                                                    HorizontalOptions="StartAndExpand"
                                                    TextColor="#ADB5BD" />
-                                            
-                                            <!--
-                                            <Frame Grid.Column="1"
-                                                   Padding="1"
-                                                   CornerRadius="20"
-                                                   BackgroundColor="#D2D5F9"
-                                                   BorderColor="White"
-                                                   VerticalOptions="End">
-                                                <Label Text="{ Binding Path=CountDontViewed }"
-                                                       FontSize="12"
-                                                       VerticalOptions="Center"
-                                                       HorizontalOptions="Center" />
-                                            </Frame>
-                                            -->
 
                                             <BoxView Grid.Column="1"
                                                      WidthRequest="18"
-                                                     Color="#D2D5F9"
+                                                     Color="#ff669900"
                                                      CornerRadius="20">
                                             </BoxView>
                                             
@@ -229,7 +228,7 @@
                                                     VerticalOptions="Center"
                                                     HorizontalOptions="Center"
                                                     FontAttributes="Bold"
-                                                   TextColor="{ StaticResource Key=TextColorLight }"/>
+                                                   TextColor="{ StaticResource Key=TextColorDark }"/>
                                         </Grid>
                                     </StackLayout>
                                 </StackLayout>

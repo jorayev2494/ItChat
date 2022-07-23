@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ItChat.Views.Auth.LoginPage"
              Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
              Title="LoginPage">
 
     <ContentPage.Content>
@@ -28,11 +29,20 @@
                        Margin="0, 0, 2, 0"
                        BorderColor="Transparent"
                        Style="{ StaticResource Key=EntryBg }">
-                    <Entry 
+                    <!-- <Entry 
                            WidthRequest="41"
                            Text="+993"
                            Placeholder="Code"
-                           Keyboard="Telephone" />
+                           Keyboard="Telephone" /> -->
+
+                    <Picker 
+                        Title="{ Binding Path=SelcectedCountry.PikerTitle }"
+                        ItemsSource="{ Binding Path=Countries }"
+                        WidthRequest="60"
+                        TextColor="White"
+                        ItemDisplayBinding="{ Binding Path=PikerItemDisplay }"
+                        SelectedItem="{ Binding Path=SelcectedCountry }"
+                         />
                 </Frame>
 
                 <Frame Grid.Column="1"

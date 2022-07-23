@@ -1,24 +1,44 @@
-﻿using System;
+﻿using ItChat.Models.Contracts;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ItChat.Models
 {
-    public class Message
+    public class Message : IEntity
     {
+        [JsonProperty("id")]
+        public uint Id { get; set; }
 
-        public int Id { get; set; }
+        [JsonProperty("chat_id")]
+        public uint ChatId { get; set; }
 
+        [JsonProperty("text")]
         public string Text { get; set; }
 
-        public string? Media { get; set; }
+        [JsonProperty("user")]
+        public User User { get; set; }
 
-        public bool IsRead { get; set; }
+        [JsonProperty("parent_id")]
+        public uint? ParentId { get; set; }
 
+        [JsonProperty("is_seen")]
+        public bool IsSeen { get; set; }
+
+        [JsonProperty("medias")]
+        public ObservableCollection<Media> Medias { get; set; }
+
+        [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
 
+        [JsonProperty("updated_at")]
+        public string UpdatedAt { get; set; }
+
+        [JsonIgnore]
         public LayoutOptions Position { get; set; }
 
     }
