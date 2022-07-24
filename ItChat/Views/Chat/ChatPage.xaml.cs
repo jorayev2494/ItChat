@@ -16,4 +16,11 @@ public partial class ChatPage : ContentPage
 		viewModel = new ChatViewModel();
 		InitializeComponent();
 	}
+
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await viewModel.LoadChat();
+    }
 }

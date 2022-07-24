@@ -23,16 +23,8 @@
         Route="LoginPage" />
     -->
 
-    <TabBar>
-        <Tab Title="Login">
-            <ShellContent ContentTemplate="{ DataTemplate authLocal:LoginPage }" Route="LoginPage" />
-        </Tab>
-        
-        <Tab Title="Code">
-            <ShellContent ContentTemplate="{ DataTemplate authLocal:CodePage }" Route="CodePage" />
-        </Tab>
-
-        <Tab Title="Chats" Icon="Icons/chat.svg">
+    <TabBar Route="tabBar">
+        <Tab Title="Chats" Icon="Icons/chat.svg" Route="chats">
             <ShellContent Title="Chats" ContentTemplate="{ DataTemplate pagesLocal:ChatsPage }" />
         </Tab>
 

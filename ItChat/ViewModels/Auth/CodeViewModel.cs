@@ -1,4 +1,6 @@
-﻿using MvvmHelpers;
+﻿using ItChat.Services.Http;
+using ItChat.ViewModels.Auth.ServerData;
+using MvvmHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,32 +10,48 @@ using System.Windows.Input;
 
 namespace ItChat.ViewModels.Auth
 {
+    [QueryProperty(nameof(PhoneCountryId), "phone_country_id")]
+    [QueryProperty(nameof(Phone), "phone")]
     public class CodeViewModel : BaseViewModel
     {
+        public object phoneCountryId = string.Empty;
+        public object phone = string.Empty;
 
-        private string code = string.Empty;
-
-        public string Code
+        public object PhoneCountryId
         {
-            get => this.code;
+            get => phoneCountryId;
+            set => base.SetProperty(ref phoneCountryId, value);
+        }
+
+        public object Phone
+        {
+            get => phone;
+            set => base.SetProperty(ref phone, value);
+        }
+
+        private string phoneCode = string.Empty;
+
+        public string PhoneCode
+        {
+            get => phoneCode;
             set {
-                if (this.code == string.Empty || this.code.Length < 4)
+                if (phoneCode == string.Empty || phoneCode.Length < 6)
                 {
-                    base.SetProperty<string>(ref this.code, value);
+                    base.SetProperty(ref phoneCode, value);
                 }
                 else
                 {
-                    base.SetProperty<string>(ref this.code, string.Empty);
+                    base.SetProperty(ref phoneCode, string.Empty);
                 }
 
                 base.OnPropertyChanged(nameof(IsFullCode));
-                ((Command)this.ContinueCommand).ChangeCanExecute();
+                ((Command)ContinueCommand).ChangeCanExecute();
             }
         }
 
         public bool IsFullCode
         {
-            get => this.code.Length < 4;
+            get => phoneCode.Length < 6;
         }
 
         public ICommand ResendCodeCommand { get; private set; }
@@ -41,19 +59,34 @@ namespace ItChat.ViewModels.Auth
 
         public CodeViewModel()
         {
-            this.ResendCodeCommand = new Command(async () => await this.ResendCode());
-            this.ContinueCommand = new Command(async () => await this.Continue(), () => !this.IsFullCode);
+            ResendCodeCommand = new Command(async () => await ResendCode());
+            ContinueCommand = new Command(async () => await Continue(), () => !IsFullCode);
         }
 
         private async Task ResendCode()
         {
-            await Shell.Current.DisplayAlert("Code", this.code.ToString(), "Ok");
-            this.Code = string.Empty;
+            await Shell.Current.DisplayAlert("Code", phoneCode.ToString(), "Ok");
+            PhoneCode = string.Empty;
         }
 
         private async Task Continue()
         {
-            await Shell.Current.DisplayAlert("Continue", $"Successfull {this.code}", "Ok");
+            object data = new
+            {
+                phone_country_id = phoneCountryId,
+                phone_code = phoneCode,
+                phone = phone
+            };
+
+            AuthorizationSuccess authorizationSuccess = await Http.PutAsync<AuthorizationSuccess>("/auth/phone/code", data);
+
+            await Shell.Current.DisplayAlert("Continue", $"Successfull {phoneCode}, PCI: {PhoneCountryId}, P: {phone}", "Ok");
+            if (authorizationSuccess != null)
+            {
+                await authorizationSuccess.SaveData();
+                await Shell.Current.GoToAsync("//tabBar/chats", true);
+            }
+
         }
     }
 }
