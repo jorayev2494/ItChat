@@ -10,7 +10,7 @@ namespace ItChat.Services.Http
     public class Http
     {
 
-        private const string SERVER_URL = "http://192.168.1.107:8000/api";
+        private const string SERVER_URL = "http://185.81.167.88:8000/api";
 
         private static async Task<HttpClient> GetClient()
         {
@@ -34,7 +34,7 @@ namespace ItChat.Services.Http
         public static async Task<T> GetAsync<T>(string url)
         {
             HttpClient httpClient = await GetClient();
-            HttpResponseMessage httpResponse = await httpClient.GetAsync($"http://192.168.1.107:8000/api{url}");
+            HttpResponseMessage httpResponse = await httpClient.GetAsync($"http://185.81.167.88:8000/api{url}");
             string stringContent = await httpResponse.Content.ReadAsStringAsync();
             T result = JsonConvert.DeserializeObject<T>(stringContent);
 
@@ -45,7 +45,7 @@ namespace ItChat.Services.Http
         {
             HttpClient httpClient = await GetClient();
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            HttpResponseMessage httpResponse = await httpClient.PostAsync($"http://192.168.1.107:8000/api{url}", httpContent);
+            HttpResponseMessage httpResponse = await httpClient.PostAsync($"http://185.81.167.88:8000/api{url}", httpContent);
             string stringContent = await httpResponse.Content.ReadAsStringAsync();
             T result = JsonConvert.DeserializeObject<T>(stringContent);
 
@@ -55,7 +55,7 @@ namespace ItChat.Services.Http
         public static async Task<T> PostAsync<T>(string url, MultipartFormDataContent multipartFormData)
         {
             HttpClient httpClient = await GetClient();
-            HttpResponseMessage httpResponse = await httpClient.PostAsync($"http://192.168.1.107:8000/api{url}", multipartFormData);
+            HttpResponseMessage httpResponse = await httpClient.PostAsync($"http://185.81.167.88:8000/api{url}", multipartFormData);
             string stringContent = await httpResponse.Content.ReadAsStringAsync();
             T result = JsonConvert.DeserializeObject<T>(stringContent);
 
@@ -66,7 +66,7 @@ namespace ItChat.Services.Http
         {
             HttpClient httpClient = await GetClient();
             HttpContent httpContent = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
-            HttpResponseMessage httpResponse = await httpClient.PutAsync($"http://192.168.1.107:8000/api{url}", httpContent);
+            HttpResponseMessage httpResponse = await httpClient.PutAsync($"http://185.81.167.88:8000/api{url}", httpContent);
             string stringContent = await httpResponse.Content.ReadAsStringAsync();
             T result = JsonConvert.DeserializeObject<T>(stringContent);
 

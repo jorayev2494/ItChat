@@ -73,6 +73,7 @@ namespace ItChat.ViewModels.Auth
         {
             object data = new
             {
+                device_id = DeviceInfo.Current.Idiom.ToString(),
                 phone_country_id = phoneCountryId,
                 phone_code = phoneCode,
                 phone = phone
@@ -80,13 +81,11 @@ namespace ItChat.ViewModels.Auth
 
             AuthorizationSuccess authorizationSuccess = await Http.PutAsync<AuthorizationSuccess>("/auth/phone/code", data);
 
-            await Shell.Current.DisplayAlert("Continue", $"Successfull {phoneCode}, PCI: {PhoneCountryId}, P: {phone}", "Ok");
             if (authorizationSuccess != null)
             {
                 await authorizationSuccess.SaveData();
                 await Shell.Current.GoToAsync("//tabBar/chats", true);
             }
-
         }
     }
 }

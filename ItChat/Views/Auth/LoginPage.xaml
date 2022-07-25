@@ -24,8 +24,33 @@
             </StackLayout>
 
             <Grid Grid.Row="1"
-                  ColumnDefinitions="Auto, *">
-                <Frame Grid.Column="0"
+                  ColumnDefinitions="Auto, *"
+                  RowSpacing="6"
+                  RowDefinitions="Auto, Auto">
+
+                <Frame Grid.Row="0"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Margin="0, 0, 2, 0"
+                       BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+
+
+                    <!-- 
+                    <Button Text="Select Country"
+                            Command="{ Binding Path=OpenSelectCountryModalCommand }" />
+                    -->
+                    <Picker 
+                        Title="Select country"
+                        ItemsSource="{ Binding Path=Countries }"
+                        HorizontalTextAlignment="Center"
+                        TextColor="White"
+                        ItemDisplayBinding="{ Binding Path=PikerItemDisplay }"
+                        SelectedItem="{ Binding Path=SelcectedCountry }" />
+                </Frame>
+
+                <Frame Grid.Row="1"
+                       Grid.Column="0"
                        Margin="0, 0, 2, 0"
                        BorderColor="Transparent"
                        Style="{ StaticResource Key=EntryBg }">
@@ -36,16 +61,17 @@
                            Keyboard="Telephone" /> -->
 
                     <Picker 
-                        Title="{ Binding Path=SelcectedCountry.PikerTitle }"
+                        Title="{ Binding Path=SelcectedCountry.PhoneCode }"
                         ItemsSource="{ Binding Path=Countries }"
                         WidthRequest="60"
                         TextColor="White"
-                        ItemDisplayBinding="{ Binding Path=PikerItemDisplay }"
-                        SelectedItem="{ Binding Path=SelcectedCountry }"
-                         />
+                        ItemDisplayBinding="{ Binding Path=PhoneCode }"
+                        HorizontalTextAlignment="Center"
+                        SelectedItem="{ Binding Path=SelcectedCountry }" />
                 </Frame>
 
-                <Frame Grid.Column="1"
+                <Frame Grid.Row="1"
+                       Grid.Column="1"
                        BorderColor="Transparent"
                        Style="{ StaticResource Key=EntryBg }"
                        Margin="2, 0, 0, 0">
@@ -53,6 +79,7 @@
                            Placeholder="Phone Number"
                            Keyboard="Telephone" />
                 </Frame>
+                
             </Grid>
 
             <StackLayout Grid.Row="2"
