@@ -4,12 +4,105 @@
              x:Class="ItChat.Views.Pages.ContactsPage"
              Title="Contacts">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{ AppThemeBinding Light=Icons/pluse, Dark=Icons/Dark/dark_pluse }" />
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Contacts"
-                VerticalOptions="Center" 
-                HorizontalOptions="Center" />
-        </StackLayout>
+
+        <CollectionView ItemsSource="{ Binding Path=Contacts }"
+                        Header="{Binding .}"
+                        Margin="15, 10">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.HeaderTemplate>
+                <DataTemplate>
+                    <Frame Padding="12, 0"
+                        BorderColor="Transparent"
+                        Style="{ StaticResource Key=EntryBg }">
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Image Grid.Column="0"
+                                Source="{ AppThemeBinding Light=Icons/search, Dark=Icons/Dark/dark_search }"
+                                Aspect="AspectFill"
+                                WidthRequest="20"
+                                HeightRequest="20"
+                                />
+                            <Entry Grid.Column="1" Placeholder="Search" Margin="8, 0, 0, 0" Keyboard="Text" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.HeaderTemplate>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="Auto, *, Auto"
+                                ColumnSpacing="10"
+                                Padding="0, 6, 0, 0">
+                        <Border Grid.Column="0"
+                                    WidthRequest="50"
+                                    HeightRequest="50"
+                                    StrokeShape="RoundRectangle 17, 17">
+                            <Image Source="{ Binding Path=Avatar }"
+                                        WidthRequest="50"
+                                        HeightRequest="50"
+                                        Aspect="AspectFill"/>
+                        </Border>
+
+                        <Image Grid.Column="0" 
+                               Source="Icons/online_status"
+                               WidthRequest="14"
+                               HeightRequest="14"
+                               TranslationX="2"
+                               TranslationY="-2"
+                               VerticalOptions="Start"
+                               HorizontalOptions="End"
+                               IsVisible="{ Binding Path=IsOnline }" />
+                        <StackLayout Grid.Column="1" Spacing="4" Padding="0, 2">
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <FormattedString.Spans>
+                                            <Span Text="{ Binding Path=FirstName }" />
+                                            <Span Text=" " />
+                                            <Span Text="{ Binding Path=LastName }" />
+                                        </FormattedString.Spans>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <FormattedString.Spans>
+                                            <Span Text="{ Binding Path=FirstName }" TextColor="#bebebe" FontSize="Micro" />
+                                            <Span Text="{ Binding Path=LastName }" TextColor="#bebebe" FontSize="Micro" />
+                                        </FormattedString.Spans>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+
+                        <Button Grid.Column="2"
+                                Text="Invate"
+                                BackgroundColor="{
+                                    AppThemeBinding
+                                    Light={StaticResource Key=ButtonBgColorLigth},
+                                    Dark={StaticResource Key=ButtonBgColorDark}
+                                }"
+                                CornerRadius="4"
+                                Padding="10, 2"
+                                FontSize="Caption"
+                                VerticalOptions="Center" />
+
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
     </ContentPage.Content>
     
 </ContentPage>

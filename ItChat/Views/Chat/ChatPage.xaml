@@ -6,8 +6,8 @@
              Shell.TabBarIsVisible="False">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="Icons/search" />
-        <ToolbarItem IconImageSource="Icons/hamburger" />
+        <ToolbarItem IconImageSource="{ AppThemeBinding Light=Icons/search, Dark=Icons/Dark/dark_search }" />
+        <ToolbarItem IconImageSource="{ AppThemeBinding Light=Icons/hamburger, Dark=Icons/Dark/dark_hamburger }" />
     </ContentPage.ToolbarItems>
     
 
