@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ItChat.Views.Profile.ProfileShowPage"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Content>
+
+        <ScrollView VerticalScrollBarVisibility="Never">
+            <Grid>
+                <Image Source="https://cutewallpaper.org/22/4k-green-minimalist-wallpapers/wallpaper-4k-for-pc-minimal-forest.png"
+                       MaximumHeightRequest="80"
+                       Aspect="AspectFill" />
+                <Grid RowDefinitions="Auto, *" Padding="12, 16, 12, 18">
+                    <Grid Grid.Row="0"
+                      ColumnDefinitions="Auto, *, Auto"
+                      VerticalOptions="CenterAndExpand">
+                        <ImageButton Grid.Column="0"
+                           Source="{ AppThemeBinding Light=Icons/left, Dark=Icons/Dark/dark_left }"
+                           WidthRequest="19"
+                           HeightRequest="19" />
+
+                        <ImageButton Grid.Column="2"
+                           Source="{ AppThemeBinding Light=Icons/more, Dark=Icons/Dark/dark_more }"
+                           WidthRequest="19"
+                           HeightRequest="19" />
+                    </Grid>
+
+                    <Grid Grid.Row="1"
+                      ColumnDefinitions="Auto, *"
+                      Margin="0, 15, 0, 0"
+                      ColumnSpacing="12">
+                        <Border Grid.Column="0"
+                            Stroke="White"
+                            StrokeThickness="2"
+                            WidthRequest="110"
+                            HeightRequest="110"
+                            StrokeShape="RoundRectangle 60"
+                            Padding="0"
+                            VerticalOptions="StartAndExpand">
+                            <Image Source="https://st4.depositphotos.com/1842549/21133/i/450/depositphotos_211331124-stock-photo-user-profile-icon-user-profile.jpg"
+                               Aspect="AspectFill" />
+                        </Border>
+                        <Image Grid.Column="0"
+                               Source="Icons/online_status"
+                               WidthRequest="20"
+                               HeightRequest="20"
+                               TranslationX="-4"
+                               TranslationY="-4"
+                               VerticalOptions="EndAndExpand"
+                               HorizontalOptions="EndAndExpand"
+                               IsVisible="true" />
+
+                        <StackLayout Grid.Column="1" Spacing="6" VerticalOptions="StartAndExpand">
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <FormattedString.Spans>
+                                            <Span Text="James" FontSize="Subtitle" FontAttributes="Bold" />
+                                            <Span Text=" " />
+                                            <Span Text="Ronald" FontSize="Subtitle" FontAttributes="Bold" />
+                                        </FormattedString.Spans>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <StackLayout Orientation="Horizontal" Spacing="8">
+                                <Grid RowDefinitions="Auto, *">
+                                    <Label Grid.Row="0" Text="1.208" FontSize="Subtitle" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                    <Label Grid.Row="1" Text="Follower" FontAttributes="Bold" FontSize="Micro" />
+                                </Grid>
+
+                                <Line Grid.Row="1"
+                                Y1="0" Y2="37"
+                                X1="0" X2="0"
+                                Stroke="#70bebebe"/>
+
+                                <Grid RowDefinitions="Auto, *">
+                                    <Label Grid.Row="0" Text="300" FontSize="Subtitle" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                    <Label Grid.Row="1" Text="Following" FontAttributes="Bold" FontSize="Micro" />
+                                </Grid>
+
+                                <Line Grid.Row="1"
+                                Y1="0" Y2="37"
+                                X1="0" X2="0"
+                                Stroke="#70bebebe"/>
+
+                                <Grid RowDefinitions="Auto, *">
+                                    <Label Grid.Row="0" Text="1.8M" FontSize="Subtitle" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                    <Label Grid.Row="1" Text="Viewers" FontAttributes="Bold" FontSize="Micro" />
+                                </Grid>
+
+                            </StackLayout>
+
+                            <Button Text="Follow"
+                                WidthRequest="158"
+                                HorizontalOptions="Start"
+                                Margin="0, 8, 0, 0"
+                                BackgroundColor="{
+                                    AppThemeBinding
+                                    Light={StaticResource Key=ButtonBgColorLigth},
+                                    Dark={StaticResource Key=ButtonBgColorDark}
+                                }"
+                                FontAttributes="Bold"
+                                FontSize="Caption"
+                                CornerRadius="5"
+                                Padding="7"/>
+                        </StackLayout>
+
+                    </Grid>
+                </Grid>
+            </Grid>
+            <!--
+            <Grid RowDefinitions="Auto, *" Padding="12, 16, 12, 18">
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="Auto, *, Auto"
+                      VerticalOptions="CenterAndExpand">
+                    <ImageButton Grid.Column="0"
+                           Source="{ AppThemeBinding Light=Icons/left, Dark=Icons/Dark/dark_left }"
+                           WidthRequest="19"
+                           HeightRequest="19" />
+
+                    <ImageButton Grid.Column="2"
+                           Source="{ AppThemeBinding Light=Icons/more, Dark=Icons/Dark/dark_more }"
+                           WidthRequest="19"
+                           HeightRequest="19" />
+                </Grid>
+
+                <Grid Grid.Row="1"
+                      ColumnDefinitions="Auto, *"
+                      Margin="0, 15, 0, 0"
+                      ColumnSpacing="12">
+                    <Border Grid.Column="0"
+                            Stroke="White"
+                            StrokeThickness="2"
+                            WidthRequest="110"
+                            HeightRequest="110"
+                            StrokeShape="RoundRectangle 80"
+                            Padding="0">
+                        <Image Source="https://st4.depositphotos.com/1842549/21133/i/450/depositphotos_211331124-stock-photo-user-profile-icon-user-profile.jpg"
+                               Aspect="AspectFill" />
+                    </Border>
+
+                    <StackLayout Grid.Column="1" Spacing="6">
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <FormattedString.Spans>
+                                        <Span Text="James" FontSize="Subtitle" FontAttributes="Bold" />
+                                        <Span Text=" " />
+                                        <Span Text="Ronald" FontSize="Subtitle" FontAttributes="Bold" />
+                                    </FormattedString.Spans>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <StackLayout Orientation="Horizontal" Spacing="8">
+                            <Grid RowDefinitions="Auto, *">
+                                <Label Grid.Row="0" Text="1.208" FontSize="Subtitle" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                <Label Grid.Row="1" Text="Follower" FontAttributes="Bold" FontSize="Micro" />
+                            </Grid>
+
+                            <Line Grid.Row="1"
+                                Y1="0" Y2="37"
+                                X1="0" X2="0"
+                                Stroke="#70bebebe"/>
+
+                            <Grid RowDefinitions="Auto, *">
+                                <Label Grid.Row="0" Text="300" FontSize="Subtitle" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                <Label Grid.Row="1" Text="Following" FontAttributes="Bold" FontSize="Micro" />
+                            </Grid>
+
+                            <Line Grid.Row="1"
+                                Y1="0" Y2="37"
+                                X1="0" X2="0"
+                                Stroke="#70bebebe"/>
+
+                            <Grid RowDefinitions="Auto, *">
+                                <Label Grid.Row="0" Text="1.8M" FontSize="Subtitle" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                                <Label Grid.Row="1" Text="Viewers" FontAttributes="Bold" FontSize="Micro" />
+                            </Grid>
+
+                        </StackLayout>
+
+                        <Button Text="Follow"
+                                WidthRequest="158"
+                                HorizontalOptions="Start"
+                                Margin="0, 8, 0, 0"
+                                BackgroundColor="{
+                                    AppThemeBinding
+                                    Light={StaticResource Key=ButtonBgColorLigth},
+                                    Dark={StaticResource Key=ButtonBgColorDark}
+                                }"
+                                FontAttributes="Bold"
+                                FontSize="Caption"
+                                CornerRadius="5"
+                                Padding="7"/>
+                    </StackLayout>
+
+                </Grid>
+            </Grid>
+            -->
+        </ScrollView>
+        
+    </ContentPage.Content>
+</ContentPage>

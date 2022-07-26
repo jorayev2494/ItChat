@@ -18,28 +18,36 @@
                         ColumnSpacing="25">
 
                         <Border Grid.Column="0"
-                            Stroke="Red"
+                            Stroke="White"
                             StrokeThickness="0"
                             WidthRequest="70"
                             HeightRequest="70"
                             StrokeShape="RoundRectangle 50"
-                            Background="#2B0B98"
+                            Background="{ AppThemeBinding Light={ StaticResource Key=EntryBgColorLight }, Dark={ StaticResource Key=EntryBgColorDark } }"
                             Padding="0">
                             <Image BackgroundColor="{ AppThemeBinding Light=EntryBgColorLight, Dark=EntryBgColorDark }"
-                                    Source="{ AppThemeBinding Light=Icons/user, Dark=Icons/Dark/dark_user }"
+                                    Source="{ Binding Path=Profile.Avatar }"
                                     Aspect="Center">
-                                </Image>
+                            </Image>
                         </Border>
 
                         <StackLayout Grid.Column="1"
                              Spacing="16"
                              VerticalOptions="Center"
                              HorizontalOptions="StartAndExpand">
-                            <Label Text="Almayra Zamamy"
-                                FontSize="Medium"
-                                FontAttributes="Bold" />
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <FormattedString.Spans>
+                                            <Span Text="{ Binding Path=Profile.FirstName }" FontAttributes="Bold" />
+                                            <Span Text=" " />
+                                            <Span Text="{ Binding Path=Profile.LastName }" FontAttributes="Bold" />
+                                        </FormattedString.Spans>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
 
-                            <Label Text="+62 1309 - 1710 - 1920"
+                            <Label Text="{ Binding Path=Profile.Phone }"
                                    TextColor="{ StaticResource Key=PlaceholderColor }" />
                         </StackLayout>
 
@@ -53,52 +61,11 @@
                     <StackLayout Spacing="25"
                              Margin="10, 0">
                         <Grid ColumnDefinitions="Auto, *, Auto"
-                            ColumnSpacing="10">
-                            <Image Grid.Column="0"
-                           Source="{ AppThemeBinding Light=Icons/user, Dark=Icons/Dark/dark_user }"
-                           WidthRequest="26"
-                           HeightRequest="26"/>
-
-                            <Label Grid.Column="1"
-                           Text="Account"
-                           FontSize="Medium"
-                           VerticalOptions="Center"
-                           FontAttributes="Bold" />
-
-                            <Image Grid.Column="2"
-                           Source="{ AppThemeBinding Light=Icons/right, Dark=Icons/Dark/dark_right }"
-                           HorizontalOptions="Center"
-                           WidthRequest="12" />
-                        </Grid>
-
-                        <Grid ColumnDefinitions="Auto, *, Auto"
                                 ColumnSpacing="10">
-                            <Image Grid.Column="0"
-                               Source="{ AppThemeBinding Light=Icos/chat, Dark=Icos/Dark/dark_chat }"
-                               WidthRequest="26"
-                               HeightRequest="26"/>
-
-                            <Label Grid.Column="1"
-                               Text="Chats"
-                               FontSize="Medium"
-                               VerticalOptions="Center"
-                               FontAttributes="Bold" />
-
-                            <Image Grid.Column="2"
-                               Source="{ AppThemeBinding Light=Icons/right, Dark=Icons/Dark/dark_right }"
-                               HorizontalOptions="Center"
-                               WidthRequest="12" />
-                        </Grid>
-                    </StackLayout>
-
-                    <StackLayout Spacing="25"
-                             Margin="10, 0">
-                        <Grid ColumnDefinitions="Auto, *, Auto"
-                      ColumnSpacing="10">
                             <Image Grid.Column="0"
                            Source="{ AppThemeBinding Light=Icons/sun, Dark=Icons/Dark/dark_sun }"
                            WidthRequest="26"
-                           HeightRequest="26"/>
+                           HeightRequest="26" />
 
                             <Label Grid.Column="1"
                            Text="Apperance"
@@ -174,7 +141,7 @@
                 <Line Grid.Row="1"
                     Y1="0" Y2="0"
                     X1="10" X2="404"
-                    Stroke="#50bebebe"/>
+                    Stroke="#30bebebe"/>
                 
                 <StackLayout Spacing="42">
 

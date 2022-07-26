@@ -151,6 +151,9 @@
 	  <Compile Update="Views\Modals\SelectCountryModal.xaml.cs">
 	    <DependentUpon>SelectCountryModal.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\Profile\ProfileShowPage.xaml.cs">
+	    <DependentUpon>ProfileShowPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -185,6 +188,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Pages\MorePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Profile\ProfileShowPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

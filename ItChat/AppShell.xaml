@@ -6,6 +6,7 @@
     xmlns:authLocal="clr-namespace:ItChat.Views.Auth"
     xmlns:pagesLocal="clr-namespace:ItChat.Views.Pages"
     xmlns:pagesChat="clr-namespace:ItChat.Views.Chat"
+    xmlns:profile="clr-namespace:ItChat.Views.Profile"
     Shell.FlyoutBehavior="Disabled"
     Shell.PresentationMode="Animated">
 
@@ -34,6 +35,10 @@
 
         <Tab Title="More" Icon="{ AppThemeBinding Light=Icons/more.svg, Dark=Icons/Dark/dark_more.svg }">
             <ShellContent Title="More" ContentTemplate="{ DataTemplate pagesLocal:MorePage }" />
+        </Tab>
+
+        <Tab Title="Profile" Icon="{ AppThemeBinding Light=Icons/more.svg, Dark=Icons/Dark/dark_more.svg }">
+            <ShellContent Title="More" ContentTemplate="{ DataTemplate profile:ProfileShowPage }" />
         </Tab>
     </TabBar>
 </Shell>

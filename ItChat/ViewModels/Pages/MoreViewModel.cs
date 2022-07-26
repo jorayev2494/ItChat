@@ -10,9 +10,9 @@ namespace ItChat.ViewModels.Pages
 {
     public class MoreViewModel : BaseViewModel
     {
-        private Profile profile;
+        private Models.Profile profile;
 
-        public Profile Profile
+        public Models.Profile Profile
         {
             get { return profile; }
             set
@@ -23,7 +23,7 @@ namespace ItChat.ViewModels.Pages
 
         public MoreViewModel()
         {
-            this.profile = new Profile()
+            profile = new Models.Profile()
             {
                 FirstName = "Almayra",
                 LastName = "Zamzamy",
