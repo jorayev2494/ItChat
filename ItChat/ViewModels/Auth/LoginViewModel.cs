@@ -1,5 +1,6 @@
 ﻿using ItChat.Models;
 using ItChat.Services.Http;
+using ItChat.Views.Modals;
 using MvvmHelpers;
 using System;
 using System.Collections.Generic;
@@ -47,10 +48,13 @@ namespace ItChat.ViewModels.Auth
 
         public ICommand ContinueCommand { get; private set; }
 
+        public ICommand OpenSelectCountryModalCommand { get; private set; }
+
         public LoginViewModel()
         {
             LoadCountriesAsync();
             this.ContinueCommand = new Command(async () => await this.Continue(), () => this.PhoneNumber != string.Empty);
+            OpenSelectCountryModalCommand = new Command(async () => await OpenSelectCountryModal());
         }
 
         public async Task LoadCountriesAsync()
@@ -76,9 +80,11 @@ namespace ItChat.ViewModels.Auth
                 };
                 await Shell.Current.GoToAsync("/code", true, parameters);
             }
+        }
 
-            //this.PhoneNumber = string.Empty;
-            //this.SelcectedCountry = null;
+        private async Task OpenSelectCountryModal()
+        {
+            await Shell.Current.Navigation.PushModalAsync(new SelectCountryModal(Countries));
         }
 
         //private async Task SelectCountry()

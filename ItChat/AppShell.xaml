@@ -24,15 +24,15 @@
     -->
 
     <TabBar Route="tabBar">
-        <Tab Title="Chats" Icon="Icons/chat.svg" Route="chats">
+        <Tab Route="chats" Title="Chats" Icon="{ AppThemeBinding Light=Icons/chat.svg, Dark=Icons/Dark/dark_chat.svg }">
             <ShellContent Title="Chats" ContentTemplate="{ DataTemplate pagesLocal:ChatsPage }" />
         </Tab>
 
-        <Tab Title="Contacts" Icon="Icons/contacts.svg">
+        <Tab Title="Contacts" Icon="{ AppThemeBinding Light=Icons/contacts.svg, Dark=Icons/Dark/dark_contacts.svg }">
             <ShellContent Title="Contacts" ContentTemplate="{ DataTemplate pagesLocal:ContactsPage }" />
         </Tab>
 
-        <Tab Title="More">
+        <Tab Title="More" Icon="{ AppThemeBinding Light=Icons/more.svg, Dark=Icons/Dark/dark_more.svg }">
             <ShellContent Title="More" ContentTemplate="{ DataTemplate pagesLocal:MorePage }" />
         </Tab>
     </TabBar>

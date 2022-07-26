@@ -33,22 +33,6 @@
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-		<MauiImage Include="Resources\Icons\big_check_list.svg" />
-		<MauiImage Include="Resources\Icons\border_add_story.svg" />
-		<MauiImage Include="Resources\Icons\chat.svg" />
-		<MauiImage Include="Resources\Icons\check_list.svg" />
-		<MauiImage Include="Resources\Icons\contacts.svg" />
-		<MauiImage Include="Resources\Icons\hamburger.svg" />
-		<MauiImage Include="Resources\Icons\left.svg" />
-		<MauiImage Include="Resources\Icons\message.svg" />
-		<MauiImage Include="Resources\Icons\more.svg" />
-		<MauiImage Include="Resources\Icons\online_status.svg" />
-		<MauiImage Include="Resources\Icons\pluse.svg" />
-		<MauiImage Include="Resources\Icons\point.svg" />
-		<MauiImage Include="Resources\Icons\search.svg" />
-		<MauiImage Include="Resources\Icons\send_m.svg" />
-		<MauiImage Include="Resources\Icons\send_mess.svg" />
-		<MauiImage Include="Resources\Icons\sircle_pluse.svg" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="118,118" />
@@ -69,27 +53,104 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Icons\bell.svg" />
 	  <None Remove="Resources\Icons\big_check_list.svg" />
 	  <None Remove="Resources\Icons\border_add_story.svg" />
 	  <None Remove="Resources\Icons\chat.svg" />
 	  <None Remove="Resources\Icons\check_list.svg" />
 	  <None Remove="Resources\Icons\contacts.svg" />
+	  <None Remove="Resources\Icons\convert.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_bell.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_chat.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_check_list.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_contacts.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_convert.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_folder.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_hamburger.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_help.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_left.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_message.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_more.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_pluse.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_point.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_right.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_search.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_sew.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_sun.svg" />
+	  <None Remove="Resources\Icons\Dark\dark_user.svg" />
+	  <None Remove="Resources\Icons\folder.svg" />
 	  <None Remove="Resources\Icons\hamburger.svg" />
+	  <None Remove="Resources\Icons\help.svg" />
 	  <None Remove="Resources\Icons\left.svg" />
 	  <None Remove="Resources\Icons\message.svg" />
 	  <None Remove="Resources\Icons\more.svg" />
 	  <None Remove="Resources\Icons\online_status.svg" />
 	  <None Remove="Resources\Icons\pluse.svg" />
 	  <None Remove="Resources\Icons\point.svg" />
+	  <None Remove="Resources\Icons\right.svg" />
 	  <None Remove="Resources\Icons\search.svg" />
 	  <None Remove="Resources\Icons\send_m.svg" />
 	  <None Remove="Resources\Icons\send_mess.svg" />
+	  <None Remove="Resources\Icons\sew.svg" />
 	  <None Remove="Resources\Icons\sircle_pluse.svg" />
+	  <None Remove="Resources\Icons\sun.svg" />
+	  <None Remove="Resources\Icons\user.svg" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Icons\bell.svg" />
+	  <MauiImage Include="Resources\Icons\big_check_list.svg" />
+	  <MauiImage Include="Resources\Icons\border_add_story.svg" />
+	  <MauiImage Include="Resources\Icons\chat.svg" />
+	  <MauiImage Include="Resources\Icons\check_list.svg" />
+	  <MauiImage Include="Resources\Icons\contacts.svg" />
+	  <MauiImage Include="Resources\Icons\convert.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_bell.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_chat.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_check_list.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_contacts.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_convert.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_folder.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_hamburger.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_help.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_left.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_message.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_more.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_pluse.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_point.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_right.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_search.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_sew.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_sun.svg" />
+	  <MauiImage Include="Resources\Icons\Dark\dark_user.svg" />
+	  <MauiImage Include="Resources\Icons\folder.svg" />
+	  <MauiImage Include="Resources\Icons\hamburger.svg" />
+	  <MauiImage Include="Resources\Icons\help.svg" />
+	  <MauiImage Include="Resources\Icons\left.svg" />
+	  <MauiImage Include="Resources\Icons\message.svg" />
+	  <MauiImage Include="Resources\Icons\more.svg" />
+	  <MauiImage Include="Resources\Icons\online_status.svg" />
+	  <MauiImage Include="Resources\Icons\pluse.svg" />
+	  <MauiImage Include="Resources\Icons\point.svg" />
+	  <MauiImage Include="Resources\Icons\right.svg" />
+	  <MauiImage Include="Resources\Icons\search.svg" />
+	  <MauiImage Include="Resources\Icons\send_m.svg" />
+	  <MauiImage Include="Resources\Icons\send_mess.svg" />
+	  <MauiImage Include="Resources\Icons\sew.svg" />
+	  <MauiImage Include="Resources\Icons\sircle_pluse.svg" />
+	  <MauiImage Include="Resources\Icons\sun.svg" />
+	  <MauiImage Include="Resources\Icons\user.svg" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	  <PackageReference Include="Refractored.MvvmHelpers" Version="1.6.2" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Modals\SelectCountryModal.xaml.cs">
+	    <DependentUpon>SelectCountryModal.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -112,6 +173,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Chat\ChatPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Modals\SelectCountryModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Pages\ChatsPage.xaml">

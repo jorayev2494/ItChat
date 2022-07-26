@@ -6,8 +6,9 @@
              Title="Chats">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="Icons/message" />
-        <ToolbarItem IconImageSource="Icons/big_check_list" />
+        <ToolbarItem IconImageSource="{ AppThemeBinding Light=Icons/message, Dark=Icons/Dark/dark_message }" />
+        <ToolbarItem IconImageSource="{ AppThemeBinding Light=Icons/check_list, Dark=Icons/Dark/dark_check_list}" />
+
         <ToolbarItem Text="Logout" Command="{ Binding Path=LogoutCommand }" />
     </ContentPage.ToolbarItems>
 
@@ -149,7 +150,7 @@
                            Style="{ StaticResource Key=EntryBg }">
                         <Grid ColumnDefinitions="Auto, *">
                             <Image Grid.Column="0"
-                                   Source="Icons/search"
+                                   Source="{ AppThemeBinding Light=Icons/search, Dark=Icons/Dark/dark_search }"
                                    Aspect="AspectFill"
                                    WidthRequest="20"
                                    HeightRequest="20"
