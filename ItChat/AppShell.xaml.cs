@@ -10,13 +10,13 @@ public partial class AppShell : Shell
 {
     public AppShell()
     {
+        ServerValidationExceptions();
+
         Routing.RegisterRoute("/login", typeof(LoginPage));
-
-        Page();
-
         Routing.RegisterRoute("/code", typeof(CodePage));
         Routing.RegisterRoute("/chat", typeof(ChatPage));
 
+        Page();
         InitializeComponent();
     }
 
@@ -24,12 +24,25 @@ public partial class AppShell : Shell
     {
         base.OnAppearing();
 
-        //SecureStorage.Default.Remove("access_token");
         string acessToken = await SecureStorage.Default.GetAsync("access_token");
 
         if (acessToken == null)
         {
             await Current.GoToAsync("/login");
         }
+    }
+
+    public void ServerValidationExceptions()
+    {
+        MessagingCenter.Subscribe<Shell, Dictionary<string, string[]>>(this, "validationException", (Shell sender, Dictionary<string, string[]> data) => 
+        {
+            foreach (KeyValuePair<string, string[]> error in data)
+            {
+                foreach (string msg in error.Value)
+                {
+                    Shell.Current.DisplayAlert("Validation exception", msg, "Ok");
+                }
+            }
+        });
     }
 }

@@ -1,6 +1,7 @@
 ﻿using ItChat.Services.Http;
 using ItChat.ViewModels.Auth.ServerData;
 using MvvmHelpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,6 +85,14 @@ namespace ItChat.ViewModels.Auth
             if (authorizationSuccess != null)
             {
                 await authorizationSuccess.SaveData();
+
+                Models.Profile profile = await Http.GetAsync<Models.Profile>("/profile");
+                if (profile != null)
+                {
+                    string profileStr = JsonConvert.SerializeObject(profile);
+                    await SecureStorage.Default.SetAsync("profile", profileStr);
+                }
+
                 await Shell.Current.GoToAsync("//tabBar/chats", true);
             }
         }

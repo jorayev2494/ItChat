@@ -22,5 +22,6 @@ public partial class ChatPage : ContentPage
         base.OnAppearing();
 
         await viewModel.LoadChat();
+        await viewModel.WSConnection();
     }
 }

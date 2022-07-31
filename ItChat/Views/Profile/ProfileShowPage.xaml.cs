@@ -17,4 +17,11 @@ public partial class ProfileShowPage : ContentPage
 
         InitializeComponent();
 	}
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        await viewModel.LoadProfileAsync();
+    }
 }
