@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ItChat.Views.Auth.CodePage"
              Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False"
              Title="CodePage">
 
     <ContentPage.Content>

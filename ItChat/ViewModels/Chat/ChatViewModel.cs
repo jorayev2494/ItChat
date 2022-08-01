@@ -1,14 +1,12 @@
 ﻿using ItChat.Models;
 using ItChat.Services.Http;
+using ItChat.Services.Pusher;
 using MvvmHelpers;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+using PusherClient;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Headers;
 using System.Windows.Input;
 
 namespace ItChat.ViewModels.Chat
@@ -138,6 +136,75 @@ namespace ItChat.ViewModels.Chat
             //}
 
             Text = string.Empty;
+        }
+
+
+        public async Task WSConnection()
+        {
+            string accessToken = await SecureStorage.Default.GetAsync("access_token");
+
+            if (accessToken == null)
+            {
+                return;
+            }
+
+            HttpAuthorizer httpAuthorizer = new CustomPusherAuthorizer("http://185.81.167.88:8000/websockets/auth")
+            {
+                AuthenticationHeader = new AuthenticationHeaderValue("Authorization", $"Bearer {accessToken}"),
+            };
+
+            Pusher pusher = new Pusher("laravel_rdb", new PusherOptions()
+            {
+                Authorizer = httpAuthorizer,
+                // Cluster = "mt1",
+                Encrypted = !true,
+                Host = "185.81.167.88:6001"
+            });
+
+            pusher.Error += ErrorHandler;
+
+            await pusher.ConnectAsync().ConfigureAwait(false);
+            Channel channel = await pusher.SubscribeAsync($"private-chat.1", new SubscriptionEventHandler((object sender) => {
+                Console.WriteLine("--- SubscriptionEventHandler: {0}", sender.ToString());
+            }));
+
+            channel.Bind("message.sent", (PusherEvent pusherEvent) => {
+                Console.WriteLine("--- PusherEvent user_id: {0}, PusherEvent data: {1}", pusherEvent.UserId, pusherEvent.Data);
+
+                Message wsMessage = JsonConvert.DeserializeObject<Message>(pusherEvent.Data);
+                Messages.Add(wsMessage);
+            });
+        }
+
+        void ErrorHandler(object sender, PusherException error)
+        {
+            if ((int)error.PusherCode < 5000)
+            {
+                // Error recevied from Pusher cluster, use PusherCode to filter.
+            }
+            else
+            {
+                if (error is ChannelUnauthorizedException unauthorizedAccess)
+                {
+                    // Private and Presence channel failed authorization with Forbidden (403)
+                }
+                else if (error is ChannelAuthorizationFailureException httpError)
+                {
+                    // Authorization endpoint returned an HTTP error other than Forbidden (403)
+                }
+                else if (error is OperationTimeoutException timeoutError)
+                {
+                    // A client operation has timed-out. Governed by PusherOptions.ClientTimeout
+                }
+                else if (error is ChannelDecryptionException decryptionError)
+                {
+                    // Failed to decrypt the data for a private encrypted channel
+                }
+                else
+                {
+                    // Handle other errors
+                }
+            }
         }
 
     }

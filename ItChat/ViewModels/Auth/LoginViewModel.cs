@@ -1,7 +1,9 @@
 ﻿using ItChat.Models;
 using ItChat.Services.Http;
+using ItChat.Services.Http.Interceptors;
 using ItChat.Views.Modals;
 using MvvmHelpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -78,6 +80,7 @@ namespace ItChat.ViewModels.Auth
                     { "phone_country_id", SelcectedCountry.Id },
                     { "phone", phoneNumber }
                 };
+
                 await Shell.Current.GoToAsync("/code", true, parameters);
             }
         }
@@ -91,6 +94,8 @@ namespace ItChat.ViewModels.Auth
         //{
         //    await Shell.Current.CurrentPage.
         //}
+
+        
 
     }
 }
