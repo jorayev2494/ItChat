@@ -1,4 +1,5 @@
 ﻿using ItChat.Services.Http.HttpExceptions;
+using ItChat.ViewModels.Auth.ServerData;
 using MvvmHelpers;
 using Newtonsoft.Json;
 using System;
@@ -24,6 +25,7 @@ namespace ItChat.Services.Http.Interceptors
             System.Threading.CancellationToken cancellationToken
         )
         {
+            RepeatSendRequest:
             //System.Threading.Interlocked.Increment(ref _count);
             string accessToken = await SecureStorage.Default.GetAsync("access_token");
 
@@ -40,49 +42,53 @@ namespace ItChat.Services.Http.Interceptors
             {
                 Console.WriteLine("--- StatusCode: '{0}' Message: '{1}' Data: '{2}'", ex.StatusCode, ex.Message, ex.Data);
 
-                if (true)
+                string httpDataString = await httpResponseMessage.Content.ReadAsStringAsync();
+
+                switch (ex.StatusCode)
                 {
-                    string httpDataString = await httpResponseMessage.Content.ReadAsStringAsync();
+                    case System.Net.HttpStatusCode.Unauthorized:
+                        //UnauthorizedException unauthorizedException = JsonConvert.DeserializeObject<UnauthorizedException>(httpDataString);
 
-                    switch (ex.StatusCode)
-                    {
-                        case System.Net.HttpStatusCode.Unauthorized:
-                            UnauthorizedException unauthorizedException = JsonConvert.DeserializeObject<UnauthorizedException>(httpDataString);
-
+                        if (await AuthorizationSuccess.RefreshTokenAsync())
+                        {
+                            goto RepeatSendRequest; 
+                        }
+                        else
+                        {
                             SecureStorage.Default.RemoveAll();
-
                             await Shell.Current.GoToAsync("/login");
-                            break;
+                        }
 
-                        case System.Net.HttpStatusCode.BadRequest:
-                            Console.WriteLine("");
-                            break;
 
-                        case System.Net.HttpStatusCode.Forbidden:
-                            Console.WriteLine("");
-                            break;
+                        break;
 
-                        case System.Net.HttpStatusCode.UnprocessableEntity:
-                            ValidationException validationException = JsonConvert.DeserializeObject<ValidationException>(httpDataString);
-                            MessagingCenter.Send<Shell, Dictionary<string, string[]>>(new Shell(), "validationException", validationException.Errors);
+                    case System.Net.HttpStatusCode.BadRequest:
+                        Console.WriteLine("");
+                        break;
 
-                            foreach (KeyValuePair<string, string[]> item in validationException.Errors)
+                    case System.Net.HttpStatusCode.Forbidden:
+                        Console.WriteLine("");
+                        break;
+
+                    case System.Net.HttpStatusCode.UnprocessableEntity:
+                        ValidationException validationException = JsonConvert.DeserializeObject<ValidationException>(httpDataString);
+                        MessagingCenter.Send<Shell, Dictionary<string, string[]>>(new Shell(), "validationException", validationException.Errors);
+
+                        foreach (KeyValuePair<string, string[]> item in validationException.Errors)
+                        {
+                            foreach (string msg in item.Value)
                             {
-                                foreach (string msg in item.Value)
-                                {
-                                    Console.WriteLine("--- server validation: '{0}' message: '{1}'", item.Key, msg);
-                                }
+                                Console.WriteLine("--- server validation: '{0}' message: '{1}'", item.Key, msg);
                             }
+                        }
 
-                            break;
+                        break;
 
-                        default:
-                            break;
-                    }
-
-                    // httpResponseMessage.EnsureSuccessStatusCode();
-
+                    default:
+                        break;
                 }
+
+                // httpResponseMessage.EnsureSuccessStatusCode();
 
                 throw new HttpRequestException(ex.Message);
             }

@@ -16,17 +16,23 @@ namespace ItChat.Models
         [JsonProperty("user_id")]
         public int UserId { get; set; }
 
-        [JsonProperty("status_id")]
-        public string StatusId { get; set; }
+        [JsonProperty("title")]
+        public string? Title { get; set; }
+
+        [JsonProperty("avatar")]
+        public string? Avatar { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }
 
+        [JsonProperty("messages_unseen_count")]
+        public uint MessagesUnseenCount { get; set; }
+
+        [JsonProperty("last_message")]
+        public Message LastMessage { get; set; }
+
         [JsonProperty("members"), JsonIgnore]
         public IList<User> Members { get; set; }
-
-        [JsonProperty("messages")]
-        public IList<Message> Messages { get; set; }
 
         //public int? CountDontViewed { get; set; }
 

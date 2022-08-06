@@ -196,42 +196,44 @@
                                     </Grid>
 
                                     <StackLayout Spacing="6" VerticalOptions="Start" Margin="0, 3, 0, 0">
-                                        <Grid ColumnDefinitions="Auto, *, Auto">
+                                        <Grid ColumnDefinitions="*, Auto">
                                             <Label Grid.Column="0"
-                                                   Text="{ Binding Path=FullName }"
+                                                   Text="{ Binding Path=Title }"
                                                    HorizontalOptions="Start"
                                                    FontAttributes="Bold" />
-                                            <Label Grid.Column="2"
+                                            <Label Grid.Column="1"
                                                    Margin="92, 0, 0, 0"
                                                    Text="{ Binding Path=CreatedAt }"
                                                    TextColor="#A4A4A4"
                                                    HorizontalOptions="End" />
                                         </Grid>
-                                        <Grid ColumnDefinitions="265, Auto">
+                                        <Grid ColumnDefinitions="*, Auto">
                                             <Label Grid.Column="0"
-                                                   Text="{ Binding Path=Messages }"
+                                                   Text="{ Binding Path=LastMessage.Text }"
                                                    MaxLines="1"
                                                    LineBreakMode="TailTruncation"
-                                                   WidthRequest="200"
+                                                   WidthRequest="240"
                                                    HorizontalOptions="StartAndExpand"
                                                    TextColor="#ADB5BD" />
 
                                             <BoxView Grid.Column="1"
                                                      WidthRequest="18"
                                                      Color="#ff669900"
-                                                     CornerRadius="20">
+                                                     CornerRadius="20"
+                                                     HorizontalOptions="EndAndExpand">
                                             </BoxView>
                                             
                                                 
                                             <Label Grid.Column="1"
-                                                   Text="2"
+                                                   Text="{ Binding Path=MessagesUnseenCount }"
                                                     FontSize="12"
                                                     VerticalOptions="Center"
-                                                    HorizontalOptions="Center"
+                                                    HorizontalOptions="EndAndExpand"
                                                     FontAttributes="Bold"
                                                    TextColor="{ StaticResource Key=TextColorDark }"/>
                                         </Grid>
                                     </StackLayout>
+                                    
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
