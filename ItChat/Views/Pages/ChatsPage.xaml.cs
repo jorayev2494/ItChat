@@ -24,5 +24,6 @@ public partial class ChatsPage : ContentPage
         base.OnAppearing();
 
         await viewModel.LoadChataAsync();
+        await viewModel.PusherChatConnection();
     }
 }

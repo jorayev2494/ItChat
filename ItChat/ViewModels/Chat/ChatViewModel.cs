@@ -1,6 +1,7 @@
 ﻿using ItChat.Models;
 using ItChat.Services.Http;
 using ItChat.Services.Pusher;
+using ItChat.Services.Pusher.Resources.Chats;
 using MvvmHelpers;
 using Newtonsoft.Json;
 using PusherClient;
@@ -50,7 +51,7 @@ namespace ItChat.ViewModels.Chat
         public ChatViewModel()
         {
             SendMessageCommand = new Command(SendMessage, () => text.Length > 1);
-            PickMediaCommand = new Command(async () => await PickMedia());
+            PickMediaCommand = new Command(async () => await PickMedia());    
         }
 
         public async Task LoadChat()
@@ -64,7 +65,11 @@ namespace ItChat.ViewModels.Chat
                 Messages.Add(msg);
             }
 
-            Debug.WriteLine("Loaded Chat", Messages);
+            //MessagingCenter.Subscribe<BaseViewModel, Message>(this, $"chat.{chat.Id}", (BaseViewModel sender, Message msg) =>
+            //{
+            //    Messages.Add(msg);
+            //    //Shell.Current.DisplayAlert("New message", msg.Text, "Ok");
+            //});
         }
 
         private async void SendMessage()
@@ -164,15 +169,17 @@ namespace ItChat.ViewModels.Chat
             pusher.Error += ErrorHandler;
 
             await pusher.ConnectAsync().ConfigureAwait(false);
-            Channel channel = await pusher.SubscribeAsync($"private-chat.1", new SubscriptionEventHandler((object sender) => {
+            Channel channel = await pusher.SubscribeAsync($"private-chat.1", new SubscriptionEventHandler((object sender) =>
+            {
                 Console.WriteLine("--- SubscriptionEventHandler: {0}", sender.ToString());
             }));
 
-            channel.Bind("message.sent", (PusherEvent pusherEvent) => {
+            channel.Bind("message.sent", (PusherEvent pusherEvent) =>
+            {
                 Console.WriteLine("--- PusherEvent user_id: {0}, PusherEvent data: {1}", pusherEvent.UserId, pusherEvent.Data);
 
-                Message wsMessage = JsonConvert.DeserializeObject<Message>(pusherEvent.Data);
-                Messages.Add(wsMessage);
+                ChatPusherResource ChatPusherResource = JsonConvert.DeserializeObject<ChatPusherResource>(pusherEvent.Data);
+                Messages.Add(ChatPusherResource.Message);
             });
         }
 

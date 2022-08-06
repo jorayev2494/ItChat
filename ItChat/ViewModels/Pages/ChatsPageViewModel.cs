@@ -1,13 +1,13 @@
 ﻿using ItChat.Models;
 using ItChat.Services.Http;
+using ItChat.Services.Pusher;
 using MvvmHelpers;
-using System;
-using System.Collections.Generic;
+using Newtonsoft.Json;
+using PusherClient;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Headers;
 using System.Windows.Input;
+using ItChat.Services.Pusher.Resources.Chats;
 
 namespace ItChat.ViewModels.Pages
 {
@@ -15,7 +15,8 @@ namespace ItChat.ViewModels.Pages
     {
 
         private IReadOnlyCollection<Story> stories;
-        private IReadOnlyCollection<ItChat.Models.Chat> chats;
+        private ObservableCollection<ItChat.Models.Chat> chats;
+        private Models.Chat selectedChat;
 
         public IReadOnlyCollection<Story> Stories
         {
@@ -23,7 +24,7 @@ namespace ItChat.ViewModels.Pages
             set => SetProperty(ref stories, value);
         }
 
-        public IReadOnlyCollection<ItChat.Models.Chat> Chats
+        public ObservableCollection<ItChat.Models.Chat> Chats
         {
             get => chats;
             set => SetProperty(ref chats, value);
@@ -80,7 +81,7 @@ namespace ItChat.ViewModels.Pages
         {
             Dictionary<string, object> parameters = new Dictionary<string, object>()
             {
-                { "Chat", chat }
+                { "Chat", selectedChat = chat }
             };
 
             await Shell.Current.GoToAsync("/chat", parameters);
@@ -91,10 +92,96 @@ namespace ItChat.ViewModels.Pages
             await Shell.Current.DisplayAlert("Add story", "Add story", "Ok");
         }
 
+        public async Task PusherChatConnection()
+        {
+            string accessToken = await SecureStorage.Default.GetAsync("access_token");
+
+            if (accessToken == null)
+            {
+                return;
+            }
+
+            HttpAuthorizer httpAuthorizer = new CustomPusherAuthorizer("http://185.81.167.88:8000/websockets/auth")
+            {
+                AuthenticationHeader = new AuthenticationHeaderValue("Authorization", $"Bearer {accessToken}"),
+            };
+
+            Pusher pusher = new Pusher("laravel_rdb", new PusherOptions()
+            {
+                Authorizer = httpAuthorizer,
+                // Cluster = "mt1",
+                Encrypted = !true,
+                Host = "185.81.167.88:6001"
+            });
+
+            pusher.Error += ErrorHandler;
+
+            await pusher.ConnectAsync().ConfigureAwait(false);
+            Channel channel = await pusher.SubscribeAsync($"private-chat.1", new SubscriptionEventHandler((object sender) => {
+                Console.WriteLine("--- SubscriptionEventHandler: {0}", sender.ToString());
+            }));
+
+            channel.Bind("message.sent", (PusherEvent pusherEvent) => {
+                Console.WriteLine("--- PusherEvent user_id: {0}, PusherEvent data: {1}", pusherEvent.UserId, pusherEvent.Data);
+
+                ChatPusherResource chatPusherResource = JsonConvert.DeserializeObject<ChatPusherResource>(pusherEvent.Data);
+
+                //Models.Chat foundChat = Chats.First<Models.Chat>((Models.Chat ch) => ch.Id == chatPusherResource.Chat.Id);
+                Models.Chat foundChat = Chats.First<Models.Chat>((Models.Chat ch) => ch.Id == chatPusherResource.Chat.Id);
+
+                if (foundChat is Models.Chat)
+                {
+                    Console.WriteLine("--- FoundChat.Id: {0}, LastMessage.Text: {1}", foundChat.Id, foundChat.LastMessage.Text);
+                    //int foundChatIndex = Chats.IndexOf(foundChat);
+                    //Chats[foundChatIndex].LastMessage = chatPusherResource.Chat.LastMessage;
+                    Chats.Remove(foundChat);
+                    Chats.Insert(0, chatPusherResource.Chat);
+
+                }
+
+                //if (selectedChat.Id == chatPusherResource.Chat.Id)
+                //{
+                //    MessagingCenter.Send<BaseViewModel, Message>(this, $"chat.{chatPusherResource.Chat.Id}", chatPusherResource.Message);
+                //}
+                //Messages.Add(ChatPusherResource.Message);
+            });
+        }
+
         private async Task Logout()
         {
             SecureStorage.Default.RemoveAll();
             await Shell.Current.GoToAsync("/login", true);
+        }
+
+        void ErrorHandler(object sender, PusherException error)
+        {
+            if ((int)error.PusherCode < 5000)
+            {
+                // Error recevied from Pusher cluster, use PusherCode to filter.
+            }
+            else
+            {
+                if (error is ChannelUnauthorizedException unauthorizedAccess)
+                {
+                    // Private and Presence channel failed authorization with Forbidden (403)
+                }
+                else if (error is ChannelAuthorizationFailureException httpError)
+                {
+                    // Authorization endpoint returned an HTTP error other than Forbidden (403)
+                }
+                else if (error is OperationTimeoutException timeoutError)
+                {
+                    // A client operation has timed-out. Governed by PusherOptions.ClientTimeout
+                }
+                else if (error is ChannelDecryptionException decryptionError)
+                {
+                    // Failed to decrypt the data for a private encrypted channel
+                }
+                else
+                {
+                    // Handle other errors
+                }
+            }
         }
 
     }
