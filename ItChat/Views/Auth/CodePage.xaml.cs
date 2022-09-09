@@ -7,13 +7,13 @@ public partial class CodePage : ContentPage
 
 	private CodeViewModel viewModel
     {
-		get => this.BindingContext as CodeViewModel;
-		set => this.BindingContext = value as CodeViewModel;
+		get => BindingContext as CodeViewModel;
+		set => BindingContext = value;
     }
 
     public CodePage()
 	{
-		this.viewModel = new CodeViewModel();
+		viewModel = new CodeViewModel();
 
 		InitializeComponent();
 	}

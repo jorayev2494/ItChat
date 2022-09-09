@@ -36,9 +36,5 @@
         <Tab Title="More" Icon="{ AppThemeBinding Light=Icons/more.svg, Dark=Icons/Dark/dark_more.svg }">
             <ShellContent Title="More" ContentTemplate="{ DataTemplate pagesLocal:MorePage }" />
         </Tab>
-
-        <Tab Title="Profile" Icon="{ AppThemeBinding Light=Icons/more.svg, Dark=Icons/Dark/dark_more.svg }">
-            <ShellContent Title="More" ContentTemplate="{ DataTemplate profile:ProfileShowPage }" />
-        </Tab>
     </TabBar>
 </Shell>

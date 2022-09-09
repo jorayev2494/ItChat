@@ -8,7 +8,7 @@ public partial class ChatPage : ContentPage
 	private ChatViewModel viewModel
     {
 		get => base.BindingContext as ChatViewModel;
-		set => base.BindingContext = value as ChatViewModel;
+		set => base.BindingContext = value;
     }
 
     public ChatPage()
@@ -22,6 +22,6 @@ public partial class ChatPage : ContentPage
         base.OnAppearing();
 
         await viewModel.LoadChat();
-        await viewModel.WSConnection();
+        //await viewModel.WSConnection();
     }
 }

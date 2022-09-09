@@ -22,6 +22,6 @@ public partial class ProfileShowPage : ContentPage
     {
         base.OnAppearing();
 
-        await viewModel.LoadProfileAsync();
+        //await viewModel.LoadProfileAsync();
     }
 }

@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ItChat.Views.Profile.ProfileShowPage"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             Shell.TabBarIsVisible="False">
 
     <ContentPage.Content>
 
@@ -23,7 +24,8 @@
                         <ImageButton Grid.Column="2"
                            Source="{ AppThemeBinding Light=Icons/more, Dark=Icons/Dark/dark_more }"
                            WidthRequest="19"
-                           HeightRequest="19" />
+                           HeightRequest="19"
+                           Command="{ Binding Path=EditProfileCommand }" />
                     </Grid>
 
                     <Grid Grid.Row="1"
@@ -38,7 +40,7 @@
                             StrokeShape="RoundRectangle 60"
                             Padding="0"
                             VerticalOptions="StartAndExpand">
-                            <Image Source="{ Binding Path=Profile.Avatar }"
+                            <Image Source="{ Binding Path=User.Avatar }"
                                Aspect="AspectFill" />
                         </Border>
                         <Image Grid.Column="0"
@@ -52,7 +54,7 @@
                                IsVisible="true" />
 
                         <StackLayout Grid.Column="1" Spacing="6" VerticalOptions="StartAndExpand">
-                            <Label Text="{ Binding Path=Profile.FullName }" FontSize="Subtitle" FontAttributes="Bold" CharacterSpacing="0.5" />
+                            <Label Text="{ Binding Path=User.FullName }" FontSize="Subtitle" FontAttributes="Bold" CharacterSpacing="0.5" />
 
                             <StackLayout Orientation="Horizontal" Spacing="8">
                                 <Grid RowDefinitions="Auto, *">
@@ -82,19 +84,39 @@
 
                             </StackLayout>
 
-                            <Button Text="Follow"
-                                WidthRequest="158"
-                                HorizontalOptions="Start"
-                                Margin="0, 8, 0, 0"
-                                BackgroundColor="{
-                                    AppThemeBinding
-                                    Light={StaticResource Key=ButtonBgColorLigth},
-                                    Dark={StaticResource Key=ButtonBgColorDark}
-                                }"
-                                FontAttributes="Bold"
-                                FontSize="Caption"
-                                CornerRadius="5"
-                                Padding="7"/>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Button Grid.Column="0"
+                                        Text="Follow"
+                                        WidthRequest="158"
+                                        HorizontalOptions="Start"
+                                        Margin="0, 8, 0, 0"
+                                        BackgroundColor="{
+                                            AppThemeBinding
+                                            Light={StaticResource Key=ButtonBgColorLigth},
+                                            Dark={StaticResource Key=ButtonBgColorDark}
+                                        }"
+                                        FontAttributes="Bold"
+                                        FontSize="Caption"
+                                        CornerRadius="5"
+                                        Padding="7"/>
+
+                                <Button Grid.Column="1"
+                                        Text="Msg"
+                                        WidthRequest="58"
+                                        HorizontalOptions="Start"
+                                        Margin="0, 8, 0, 0"
+                                        BackgroundColor="{
+                                            AppThemeBinding
+                                            Light={StaticResource Key=ButtonBgColorLigth},
+                                            Dark={StaticResource Key=ButtonBgColorDark}
+                                        }"
+                                        FontAttributes="Bold"
+                                        FontSize="Caption"
+                                        CornerRadius="5"
+                                        Padding="7"
+                                        Command="{ Binding Path=SendMessageCommand }" />
+                            </Grid>
+                            
                         </StackLayout>
 
                     </Grid>

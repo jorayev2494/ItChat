@@ -10,6 +10,9 @@ namespace ItChat.ViewModels.Auth.ServerData
 {
     public class AuthorizationSuccess
     {
+        [JsonIgnore]
+        private static bool isAlreadyFetchingAccessToken { get; set; } = false;
+
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
 
@@ -78,14 +81,23 @@ namespace ItChat.ViewModels.Auth.ServerData
         public static async Task<bool> RefreshTokenAsync()
         {
             string refreshToken = await SecureStorage.Default.GetAsync("refresh_token");
-            AuthorizationSuccess authorizationSuccess = await Http.PostAsync<AuthorizationSuccess>("/auth/refresh_token", new { refreshToken = refreshToken });
+            SecureStorage.Default.Remove("refresh_token");
+            AuthorizationSuccess authorizationSuccess = null;
 
-            if (authorizationSuccess is AuthorizationSuccess)
+            if (! string.IsNullOrEmpty(refreshToken) && ! isAlreadyFetchingAccessToken)
             {
-                await authorizationSuccess.SaveData();
+                isAlreadyFetchingAccessToken = true;
+                authorizationSuccess = await Http.PostAsync<AuthorizationSuccess>("/auth/refresh_token", new { refresh_token = refreshToken });
+
+                if (authorizationSuccess is AuthorizationSuccess)
+                {
+                    await authorizationSuccess.SaveData();
+
+                    return true;
+                }
             }
 
-            return authorizationSuccess is AuthorizationSuccess;
+            return false;
         }
     }
 }

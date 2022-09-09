@@ -16,4 +16,10 @@ public partial class MorePage : ContentPage
 		this.viewModel = new MoreViewModel();
 		InitializeComponent();
 	}
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+		await viewModel.LoadProfile();
+    }
 }

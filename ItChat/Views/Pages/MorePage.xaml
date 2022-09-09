@@ -16,6 +16,9 @@
                     <Grid ColumnDefinitions="Auto, *, Auto"
                         Margin="10, 0"
                         ColumnSpacing="25">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{ Binding Path=GoToProfileCommand }" />
+                        </Grid.GestureRecognizers>
 
                         <Border Grid.Column="0"
                             Stroke="White"
@@ -58,6 +61,7 @@
 
                     </Grid>
 
+                    <!--
                     <StackLayout Spacing="25"
                              Margin="10, 0">
                         <Grid ColumnDefinitions="Auto, *, Auto"
@@ -136,6 +140,7 @@
                            WidthRequest="12" />
                         </Grid>
                     </StackLayout>
+                    -->
                 </StackLayout>
 
                 <Line Grid.Row="1"

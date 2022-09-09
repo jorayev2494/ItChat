@@ -54,10 +54,40 @@ namespace ItChat.Services.Http
             return result;
         }
 
-        public static async Task<T> PostAsync<T>(string url, MultipartFormDataContent multipartFormData)
+        public static async Task<T> PostAsync<T>(string url, MultipartFormDataContent multipartFormDataContent)
         {
             HttpClient httpClient = GetClient();
-            HttpResponseMessage httpResponse = await httpClient.PostAsync($"http://185.81.167.88:8000/api{url}", multipartFormData);
+
+            HttpResponseMessage httpResponse = await httpClient.PostAsync($"http://185.81.167.88:8000/api{url}", multipartFormDataContent);
+            string stringContent = await httpResponse.Content.ReadAsStringAsync();
+
+            T result = default(T);
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                result = JsonConvert.DeserializeObject<T>(stringContent);
+            }
+
+            return result;
+        }
+
+        public static async Task<T> PostAsync<T>(string url, Dictionary<string, HttpContent> keyValueHttpContent)
+        {
+            HttpClient httpClient = GetClient();
+
+            MultipartFormDataContent multipartFormDataContent = new MultipartFormDataContent();
+
+            foreach (KeyValuePair<string, HttpContent> keyValue in keyValueHttpContent)
+            {
+                if (keyValue.Value is StreamContent)
+                {
+                    multipartFormDataContent.Add(keyValue.Value, keyValue.Key);
+                    continue;
+                }
+
+                multipartFormDataContent.Add(keyValue.Value, keyValue.Key);
+            }
+
+            HttpResponseMessage httpResponse = await httpClient.PostAsync($"http://185.81.167.88:8000/api{url}", multipartFormDataContent);
             string stringContent = await httpResponse.Content.ReadAsStringAsync();
 
             T result = default(T);

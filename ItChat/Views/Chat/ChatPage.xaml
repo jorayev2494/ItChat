@@ -30,7 +30,7 @@
                             Source="{ Binding Path=Chat.Avatar }"
                             WidthRequest="40"
                             HeightRequest="40"
-                            Aspect="AspectFill" >
+                            Aspect="AspectFill">
                     </Image>
                 </Frame>
                 <Image Source="Icons/online_status"
@@ -43,7 +43,7 @@
                         IsVisible="{ Binding Path=Chat.IsActive }" />
             </Grid>
             <StackLayout VerticalOptions="Center">
-                <Label Text="{ Binding Path=Chat.FullName }" FontSize="Subtitle" />
+                <Label Text="{ Binding Path=Chat.Title }" FontSize="Subtitle" />
                 <Label Text="last seen at 18:45"
                        FontSize="Small"
                        TextColor="{ StaticResource Key=PlaceholderColor }"/>
@@ -65,15 +65,14 @@
                                    HorizontalOptions="{ Binding Path=Position }"
                                    CornerRadius="22"
                                    HasShadow="False"
-                                   BorderColor="Transparent"
                                    Style="{ StaticResource Key=MessageBg }">
                                 <StackLayout Spacing="8">
-                                
-                                    <Frame Padding="0" BackgroundColor="Aqua" IsVisible="{ Binding Path=Media, Converter={StaticResource Key=strToBool} }">
+
+                                    <Frame Padding="0" BackgroundColor="Aqua" IsVisible="{ Binding Path=IsNotEmptyMedia }">
                                         <CollectionView ItemsSource="{ Binding Path=Medias }">
                                             <CollectionView.ItemsLayout>
                                                 <GridItemsLayout Orientation="Vertical"
-                                                                 Span="2" />
+                                                                 Span="{ Binding Path=Medias.Count.ToString() }" />
                                             </CollectionView.ItemsLayout>
                                             <CollectionView.ItemTemplate>
                                                 <DataTemplate>
@@ -82,15 +81,16 @@
                                             </CollectionView.ItemTemplate>
                                         </CollectionView>
                                     </Frame>
-                                    
-                                    <Label Text="{ Binding Path=Text }"
+
+                                    <Label IsVisible="{ Binding Path=IsNotEmptyText }"
+                                           Text="{ Binding Path=Text }"
                                            FontSize="Caption" />
                                     <Label HorizontalOptions="{ Binding Path=Position }"
                                            TextColor="White">
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="{ Binding Path=CreatedAt }" FontSize="Micro" CharacterSpacing="1" />
-                                                <Span Text="•" CharacterSpacing="8" FontSize="Micro" />
+                                                <Span Text="•" CharacterSpacing="10" FontSize="Micro" />
                                                 <Span Text="Read" CharacterSpacing="1" FontSize="Micro" />
                                             </FormattedString>
                                         </Label.FormattedText>
@@ -125,8 +125,7 @@
                 <ImageButton Grid.Column="2"
                              Source="Icons/send_m.svg"
                              WidthRequest="24"
-                             Command="{ Binding Path=SendMessageCommand }"
-                             />
+                             Command="{ Binding Path=SendMessageCommand }" />
             </Grid>
             
             <!--

@@ -16,4 +16,17 @@ public partial class ContactsPage : ContentPage
 		viewModel = new ContactsViewModel();
 		InitializeComponent();
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        viewModel.loadContacts();
+    }
+
+    private void CollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Models.User slected = e.CurrentSelection.FirstOrDefault() as Models.User;
+        viewModel.SelectedContactCommand?.Execute(slected);
+    }
 }

@@ -91,6 +91,7 @@ namespace ItChat.ViewModels.Auth
                 {
                     string profileStr = JsonConvert.SerializeObject(profile);
                     await SecureStorage.Default.SetAsync("profile", profileStr);
+                    await SecureStorage.Default.SetAsync("auth_id", profile.Id.ToString());
                 }
 
                 await Shell.Current.GoToAsync("//tabBar/chats", true);

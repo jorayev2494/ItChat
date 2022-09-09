@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Windows.Input;
 using ItChat.Services.Pusher.Resources.Chats;
+using System;
 
 namespace ItChat.ViewModels.Pages
 {
@@ -66,9 +67,22 @@ namespace ItChat.ViewModels.Pages
         {
             string accessToken = await SecureStorage.Default.GetAsync("access_token");
 
-            if (accessToken != null)
+            if (string.IsNullOrEmpty(accessToken))
             {
-                this.Chats = await Http.GetAsync<ObservableCollection<ItChat.Models.Chat>>("/chats");
+                return;
+            }
+
+            Chats = new ObservableCollection<Models.Chat>();
+            ObservableCollection<Models.Chat> serverChats = await Http.GetAsync<ObservableCollection<ItChat.Models.Chat>>("/chats");
+            string todayFormat = DateTime.Today.ToString("MM/dd/yyyy");
+
+            foreach (Models.Chat chat in serverChats)
+            {
+                DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(chat.CreatedAt)).DateTime;
+                string createdDate = dateTime.ToString("MM/dd/yyyy");
+                string dateTimeFormat = (createdDate == todayFormat) ? "HH:mm" : "MM-dd-yy HH:mm";
+                chat.CreatedAt = dateTime.ToString(dateTimeFormat);
+                chats.Add(chat);
             }
         }
 
