@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ItChat.Views.Profile.ProfileEditPage"
+             Shell.TabBarIsVisible="False">
+
+    <ContentPage.Content>
+        <ScrollView Padding="20, 0" VerticalScrollBarVisibility="Never">
+
+            <StackLayout Spacing="8">
+                <Label Text="First name"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="StartAndExpand" />
+                <Frame BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+                    <Entry Text="{ Binding Path=User.FirstName }"
+                           Placeholder="First name"
+                           Keyboard="Default" />
+                </Frame>
+
+                <Label Text="Last name"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="StartAndExpand" />
+                <Frame BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+                    <Entry Text="{ Binding Path=User.LastName }"
+                           Placeholder="Last name"
+                           Keyboard="Default" />
+                </Frame>
+
+                <!--
+                <Label Text="Avatar"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="StartAndExpand" />
+                <Frame BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+                    <Entry Text="{ Binding Path=LastName }"
+                           Placeholder="Avatar"
+                           Keyboard="Default" />
+                </Frame>
+                -->
+            
+                <Label Text="Email"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="StartAndExpand" />
+                <Frame BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+                    <Entry Text="{ Binding Path=User.Email }"
+                           Placeholder="Email"
+                           Keyboard="Email" />
+                </Frame>
+
+                <StackLayout Spacing="8">
+                    <Label Text="Phone country"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="StartAndExpand" />
+                    <Frame BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+                        <Picker
+                            Title="Select phone country"
+                            ItemsSource="{ Binding Path=Countries }"
+                            HorizontalTextAlignment="Center"
+                            TextColor="White"
+                            ItemDisplayBinding="{ Binding Path=PikerItemDisplay }"
+                            SelectedItem="{ Binding Path=User.PhoneCountry }" />
+                    </Frame>
+                </StackLayout>
+
+                <Label Text="Phone"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="StartAndExpand" />
+                <Frame BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+                    <Entry Text="{ Binding Path=User.Phone }"
+                           Placeholder="Phone Number"
+                           Keyboard="Telephone" />
+                </Frame>
+
+                <StackLayout Spacing="8">
+                    <Label Text="Country"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="StartAndExpand" />
+                    <Frame BorderColor="Transparent"
+                       Style="{ StaticResource Key=EntryBg }">
+                        <Picker
+                            Title="Select country"
+                            ItemsSource="{ Binding Path=Countries }"
+                            HorizontalTextAlignment="Center"
+                            TextColor="White"
+                            ItemDisplayBinding="{ Binding Path=PikerItemDisplay }"
+                            SelectedItem="{ Binding Path=User.Country }" />
+                    </Frame>
+                </StackLayout>
+
+                <Frame BorderColor="Transparent"
+                       Margin="0, 12, 0, 0"
+                       Style="{ StaticResource Key=EntryBg }">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Is private"
+                            VerticalOptions="Center"
+                            HorizontalOptions="StartAndExpand" />
+                        <Switch Toggled="Switch_Toggled" IsToggled="{ Binding Path=User.IsPrivate }" />
+                    </StackLayout>
+                </Frame>
+            
+                <Button
+                    Text="Save"
+                    Margin="0, 15, 0, 0"
+                    Command="{ Binding Path=UpdateProfileCommand }"
+                    Style="{ StaticResource Key=LongBtnDark }" />
+            </StackLayout>
+
+        </ScrollView>
+    </ContentPage.Content>
+
+</ContentPage>

@@ -2,13 +2,16 @@
 using ItChat.Services.Http;
 using ItChat.Services.Pusher;
 using ItChat.Services.Pusher.Resources.Chats;
+using Microsoft.Maui.Graphics;
+using Microsoft.Maui.Media;
 using MvvmHelpers;
 using Newtonsoft.Json;
 using PusherClient;
+using System.Collections;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Windows.Input;
+using WebSocket4Net.Command;
 
 namespace ItChat.ViewModels.Chat
 {
@@ -27,9 +30,9 @@ namespace ItChat.ViewModels.Chat
             }
         }
 
-        private Models.Chat chat;
+        private Models.Chat? chat;
 
-        public Models.Chat Chat
+        public Models.Chat? Chat
         {
             get => this.chat;
             set {
@@ -51,17 +54,29 @@ namespace ItChat.ViewModels.Chat
         public ChatViewModel()
         {
             SendMessageCommand = new Command(SendMessage, () => text.Length > 1);
-            PickMediaCommand = new Command(async () => await PickMedia());    
+            PickMediaCommand = new Command(async () => await PickMedia());
         }
 
         public async Task LoadChat()
         {
-            IList<Message> serverMessages = await Http.GetAsync<List<Message>>($"/chats/{chat.Id}");
+            if (chat is null)
+            {
+                return;
+            }
+
+            IList<Message> serverMessages = await Http.GetAsync<List<Message>>($"/chats/{chat.Id}/messages");
             Messages = new ObservableCollection<Message>();
+            int authId = Convert.ToInt32(await SecureStorage.Default.GetAsync("auth_id"));
+            string todayFormat = DateTime.Today.ToString("MM/dd/yyyy");
 
             foreach (Message msg in serverMessages)
             {
-                msg.Position = msg.User.Id == 13 ? LayoutOptions.End : LayoutOptions.Start;
+                if (msg.Id == authId) msg.Position = LayoutOptions.Start;
+                DateTime dateTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(msg.CreatedAt)).DateTime;
+                string createdDate = dateTime.ToString("MM/dd/yyyy");
+                string dateTimeFormat = (createdDate == todayFormat) ? "HH:mm" : "MM-dd-yyyy HH:mm";
+                msg.CreatedAt = dateTime.ToString(dateTimeFormat); 
+
                 Messages.Add(msg);
             }
 
@@ -79,33 +94,67 @@ namespace ItChat.ViewModels.Chat
                 return;
             }
 
-            object dataMessage = new { chat_id = chat.Id, text = text };
+            object dataMessage = new { text = text };
 
-            Message sentMsg = await Http.PostAsync<Message>($"/chats", dataMessage);
-
+            Message sentMsg = await Http.PostAsync<Message>($"/chats/{chat.Id}/messages", dataMessage);
+            DateTime ress = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(sentMsg.CreatedAt)).DateTime;
+            sentMsg.CreatedAt = ress.ToString("HH:mm");
             Messages.Add(sentMsg);
             Text = string.Empty;
         }
 
         private async Task PickMedia()
         {
-            try
-            {
-                FileResult media = await MediaPicker.PickVideoAsync();
-                await LoadPhotoAsync(media);
-            }
-            catch (FeatureNotSupportedException fnsEx)
-            {
-                // Feature is not supported on the device
-            }
-            catch (PermissionException pEx)
-            {
-                // Permissions not granted
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"CapturePhotoAsync THREW: {ex.Message}");
-            }
+
+            
+
+            //if (! MediaPicker.Default.IsCaptureSupported)
+            //{
+            //    return;
+            //}
+
+            //string mediaType = await Shell.Current.DisplayActionSheet("Media", "Cancel", "Destruction", new string[] { "photo", "video", "take photo", "take video" });
+
+            //FileResult media = null;
+
+            //MediaPickerOptions mediaPickerOptions = new MediaPickerOptions()
+            //{
+            //};
+
+            //switch (mediaType)
+            //{
+            //    case "photo":
+            //        media = await MediaPicker.PickPhotoAsync(mediaPickerOptions);
+            //        break;
+            //    case "video":
+            //        media = await MediaPicker.PickVideoAsync();
+            //        break;
+            //    case "take photo":
+            //        media = await MediaPicker.CapturePhotoAsync();
+            //        break;
+            //    case "take video":
+            //        media = await MediaPicker.CaptureVideoAsync();
+            //        break;
+            //    default:
+            //        break;
+            //}
+
+            //try
+            //{
+            //    await LoadPhotoAsync(media);
+            //}
+            //catch (FeatureNotSupportedException fnsEx)
+            //{
+            //    // Feature is not supported on the device
+            //}
+            //catch (PermissionException pEx)
+            //{
+            //    // Permissions not granted
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine($"CapturePhotoAsync THREW: {ex.Message}");
+            //}
         }
 
         private async Task LoadPhotoAsync(FileResult media)
@@ -117,32 +166,27 @@ namespace ItChat.ViewModels.Chat
             }
 
             MultipartFormDataContent multipartFormDataContent = new MultipartFormDataContent();
+
+            if (!string.IsNullOrEmpty(Text) && !string.IsNullOrWhiteSpace(Text))
+            {
+                multipartFormDataContent.Add(new StringContent(Text, System.Text.Encoding.UTF8), "text");
+            }
+
             multipartFormDataContent.Add(
                 new StreamContent(await media.OpenReadAsync()),
                 "medias[]",
                 media.FileName
             );
 
-            StringContent httpContent = new StringContent(chat.Id.ToString());
-            multipartFormDataContent.Add(httpContent, "chat_id");
-            //StringContent httpContenta = new StringContent(this.Text);
-            //multipartFormDataContent.Add(httpContenta, "text");
+            multipartFormDataContent.Add(new StringContent(chat.Id.ToString(), System.Text.Encoding.UTF8), "chat_id");
 
-            Message sentMsg = await Http.PostAsync<Message>("/chats", multipartFormDataContent);
+            Message sentMsg = await Http.PostAsync<Message>($"/chats/{chat.Id}/messages", multipartFormDataContent);
+            DateTime ress = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(sentMsg.CreatedAt)).DateTime;
+            sentMsg.CreatedAt = ress.ToString("HH:mm");
             Messages.Add(sentMsg);
-
-            //string mediaPath = Path.Combine(FileSystem.CacheDirectory, media.FileName);
-            //using (var stream = await media.OpenReadAsync())
-            //{
-            //    using (var newStream = File.OpenWrite(mediaPath))
-            //    {
-            //        await stream.CopyToAsync(newStream);
-            //    }
-            //}
 
             Text = string.Empty;
         }
-
 
         public async Task WSConnection()
         {
@@ -162,7 +206,7 @@ namespace ItChat.ViewModels.Chat
             {
                 Authorizer = httpAuthorizer,
                 // Cluster = "mt1",
-                Encrypted = !true,
+                Encrypted = true,
                 Host = "185.81.167.88:6001"
             });
 

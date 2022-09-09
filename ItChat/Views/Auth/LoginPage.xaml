@@ -35,7 +35,6 @@
                        BorderColor="Transparent"
                        Style="{ StaticResource Key=EntryBg }">
 
-
                     <!-- 
                     <Button Text="Select Country"
                             Command="{ Binding Path=OpenSelectCountryModalCommand }" />

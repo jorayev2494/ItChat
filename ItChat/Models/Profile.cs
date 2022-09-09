@@ -40,6 +40,9 @@ namespace ItChat.Models
         [JsonProperty("is_admin")]
         public bool IsAdmin { get; set; }
 
+        [JsonProperty("is_private")]
+        public bool IsPrivate { get; set; }
+
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
 

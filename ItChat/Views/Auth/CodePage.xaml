@@ -26,14 +26,16 @@
             <StackLayout Grid.Row="1"
                          Orientation="Vertical">
                 <Frame Grid.Column="0"
-                       WidthRequest="320"
+                       WidthRequest="350"
                        BorderColor="Transparent"
+                       BackgroundColor="Red"
                        Style="{ StaticResource Key=EntryBg }"
                        Padding="0, 2">
                     <Entry Text="{ Binding Path=PhoneCode }"
                            Placeholder="______"
+                           BackgroundColor="Yellow"
                            FontSize="40"
-                           CharacterSpacing="2"
+                           CharacterSpacing="3"
                            MaxLength="6"
                            HorizontalOptions="CenterAndExpand"
                            Keyboard="Numeric" />

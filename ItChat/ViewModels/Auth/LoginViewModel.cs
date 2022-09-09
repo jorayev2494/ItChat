@@ -55,7 +55,7 @@ namespace ItChat.ViewModels.Auth
         public LoginViewModel()
         {
             LoadCountriesAsync();
-            this.ContinueCommand = new Command(async () => await this.Continue(), () => this.PhoneNumber != string.Empty);
+            this.ContinueCommand = new Command(async () => await this.Continue()); // , () => this.PhoneNumber != string.Empty
             OpenSelectCountryModalCommand = new Command(async () => await OpenSelectCountryModal());
         }
 

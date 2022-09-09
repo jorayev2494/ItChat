@@ -7,13 +7,13 @@ public partial class LoginPage : ContentPage
 
 	private LoginViewModel viewModel 
 	{
-		get => this.BindingContext as LoginViewModel;
-		set => this.BindingContext = value as LoginViewModel;
+		get => BindingContext as LoginViewModel;
+		set => BindingContext = value;
     }
 
     public LoginPage()
 	{
-		this.viewModel = new LoginViewModel();
+		viewModel = new LoginViewModel();
 
 		InitializeComponent();
 	}
